@@ -1,20 +1,27 @@
 import { useState } from 'react';
+import {BrowserRouter,Routes,Route} from 'react-router-dom'
 import './main.css';
-import Header from './components/header'
-import Landerpage from './components/landerpage';
-import Footer from './components/footer'
-
+import Home from './components/Home';
+import Signin from './components/login/signin';
 
 function App() {
   return (
     <div className='min-h-screen flex flex-col bg-[#EAEAEA]'>
-      <Header/>
-      <main className="flex-grow">
-        <Landerpage />
-        {/* Additional page content can go here */}
-      </main>
-      <Footer/>
-    </div>
+      <BrowserRouter>
+
+        <Routes>
+
+          <Route path='/' element={ <Home />}></Route>
+          <Route path="/signin" element={<Signin />}></Route>
+          {/* <Route path="/login" element={<Login />}></Route>
+          <Route path="/forgotPassword" element={<ForgotPassword />}></Route>
+          <Route path="/resetPassword/:token" element={<ResetPassword />}></Route>
+          <Route path="/dashboard" element={<DashBoard />}></Route> */}
+
+        </Routes>
+
+      </BrowserRouter>
+      </div>
   );
 }
 

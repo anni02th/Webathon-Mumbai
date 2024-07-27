@@ -21,13 +21,16 @@ const Header = () => {
             <option value="as-Student">as Student</option>
             <option value="as-Alumni">as Alumni</option>
          </select>
-         <select name="signin" id="">
+         {/* <select name="signin" id="">
             <option value="none">Login In</option>
             <option value="as-Admin">as Admin</option>
             <option value="as-Faculty">as Faculty</option>
             <option value="as-Student">as Student</option>
             <option value="as-Alumni">as Alumni</option>
-         </select>
+         </select> */}
+         <a href="Signin">
+            <button className="bg-Dblue text-white py-1 px-6 rounded-sm mr-4 hover:bg-Dbblue transition duration-200">Sign In</button>
+         </a>
       </div>
     </div>
   )
