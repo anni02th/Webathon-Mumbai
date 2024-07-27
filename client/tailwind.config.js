@@ -8,7 +8,10 @@ export default {
 
   theme: {
     extend: {
-      
+      colors: {
+        "Dblue":"#02427A",
+        "Dbblue":"#02427acf",
+      },
     },
   },
   plugins: [],

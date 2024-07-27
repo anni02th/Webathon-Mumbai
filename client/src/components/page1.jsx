@@ -15,8 +15,8 @@ const Hero = () => {
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at massa sit amet nisi blandit vehicula. Donec sollicitudin luctus fermentum.
         </p>
         <div className='flex flex-wrap gap-4 justify-center'>
-          <button className="bg-blue-500 text-white py-2 px-4 rounded-full mr-4 hover:bg-blue-600 transition duration-200">Get Started</button>
-          <button className="bg-white text-blue-500 py-2 px-4 rounded-full hover:bg-blue-50 transition duration-200">Learn More</button>
+          <button className="bg-Dblue text-white py-1 px-6 rounded-full mr-4 hover:bg-Dbblue transition duration-200">Get Started</button>
+          <button className="bg-white text-Dblue py-2 px-6 rounded-full hover:bg-blue-50 transition duration-200">Learn More</button>
         </div>
       </div>
     </div>
