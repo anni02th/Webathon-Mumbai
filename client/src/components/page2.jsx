@@ -12,7 +12,7 @@ const Page2 = () => {
       </div>
       <div className='flex gap-6'>
         <div className='flex gap-6 '>
-          <div className='w-[40%]'>
+          <div className='h-[100%] w-[40%]'>
             <img src="Rectangle 12.png" alt="" />
           </div>
           <div className='flex flex-col justify-between w-[45%]'>
