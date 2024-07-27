@@ -10,10 +10,14 @@ function App() {
       <BrowserRouter>
 
         <Routes>
+<<<<<<< HEAD
           <Route path='/' element={ <Home />}></Route>
+=======
+
+          <Route path="/" element={ <Home />}></Route>
+>>>>>>> 500fde8f23afd69cc2515e6da1f87195292b5cef
           <Route path="/signin" element={<Signin />}></Route>
-          {/* <Route path="/login" element={<Login />}></Route>
-          <Route path="/forgotPassword" element={<ForgotPassword />}></Route>
+          {/* <Route path="/forgotPassword" element={<ForgotPassword />}></Route>
           <Route path="/resetPassword/:token" element={<ResetPassword />}></Route>
           <Route path="/dashboard" element={<DashBoard />}></Route> */}
 
