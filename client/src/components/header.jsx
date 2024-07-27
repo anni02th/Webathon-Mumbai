@@ -29,7 +29,7 @@ const Header = () => {
             <option value="as-Alumni">as Alumni</option>
          </select> */}
          <a href="/signin">     
-            <button className="bg-Dblue text-white py-1 px-6 rounded-sm mr-4 hover:bg-Dbblue transition duration-200">Sign In</button>
+            <button className="bg-Dblue text-white py-1 px-6 rounded-sm mr-4 hover:bg-Dbblue transition duration-200 ">Sign In</button>
          </a>
       </div>
     </div>
