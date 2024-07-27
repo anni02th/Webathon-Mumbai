@@ -1,25 +1,16 @@
 import { useState } from 'react';
 import './main.css';
-import Footer from './components/footer'
-import Hero from './components/page1'
 import Header from './components/header'
-import Page2 from './components/page2';
-import Page3 from './components/page3';
-import Page4 from './components/page4';
-import Page5 from './components/page5';
-import Page6 from './components/page6';
+import Landerpage from './components/landerpage';
+import Footer from './components/footer'
+
 
 function App() {
   return (
     <div className='min-h-screen flex flex-col bg-[#EAEAEA]'>
       <Header/>
       <main className="flex-grow">
-        <Hero />
-        <Page2 />
-        <Page3 />
-        <Page4 />
-        <Page5 />
-        <Page6 />
+        <Landerpage />
         {/* Additional page content can go here */}
       </main>
       <Footer/>

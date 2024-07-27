@@ -1,7 +1,7 @@
 import React from 'react';
 import backgroundImage from '/Rectangle 5.png';
 
-const Hero = () => {
+const Page1 = () => {
   return (
     <div className="relative h-screen flex flex-col items-center justify-center text-center">
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImage})` }} />
@@ -23,4 +23,4 @@ const Hero = () => {
   );
 };
 
-export default Hero;
+export default Page1;
