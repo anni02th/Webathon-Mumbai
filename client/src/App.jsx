@@ -7,7 +7,7 @@ import Page2 from './components/page2';
 
 function App() {
   return (
-    <div className='min-h-screen flex flex-col'>
+    <div className='min-h-screen flex flex-col bg-[#EAEAEA]'>
       <Header/>
       <main className="flex-grow">
         <Hero />
