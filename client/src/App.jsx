@@ -10,7 +10,6 @@ function App() {
       <BrowserRouter>
 
         <Routes>
-
           <Route path='/' element={ <Home />}></Route>
           <Route path="/signin" element={<Signin />}></Route>
           {/* <Route path="/login" element={<Login />}></Route>
