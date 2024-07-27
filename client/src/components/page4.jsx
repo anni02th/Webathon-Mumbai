@@ -19,24 +19,34 @@ const Page4 = () => {
         <img src="page4-1.png" alt="" className='m-4' />
         <div>
             <div className='flex items-center my-8'>
-                <div className='w-[50px] h-[50px] bg-Dblue rounded-[10px] mx-10'></div>
-                <p className='text-3xl'>Complete Everything as ordered</p>
+              <div className='w-[50px] h-[50px] bg-Dblue rounded-[10px] mx-10 flex justify-center items-center text-3xl'>
+                <i className="fa-solid fa-check text-white"></i>
+              </div>
+              <p className='text-3xl'>Complete Everything as ordered</p>
             </div>
             <div className='flex items-center my-8'>
-                <div className='w-[50px] h-[50px] bg-Dblue rounded-[10px] mx-10'></div>
-                <p className='text-3xl'>Provide your last exam result</p>
+              <div className='w-[50px] h-[50px] bg-Dblue rounded-[10px] mx-10 flex justify-center items-center text-3xl'>
+                <i className="fa-solid fa-check text-white"></i>
+              </div>
+              <p className='text-3xl'>Provide your last exam result</p>
             </div>
             <div className='flex items-center my-8'>
-                <div className='w-[50px] h-[50px] bg-Dblue rounded-[10px] mx-10'></div>
-                <p className='text-3xl'>Choose your desired program </p>
+              <div className='w-[50px] h-[50px] bg-Dblue rounded-[10px] mx-10 flex justify-center items-center text-3xl'>
+                <i className="fa-solid fa-check text-white"></i>
+              </div>
+              <p className='text-3xl'>Choose your desired program </p>
             </div>
             <div className='flex items-center my-8'>
-                <div className='w-[50px] h-[50px] bg-Dblue rounded-[10px] mx-10'></div>
-                <p className='text-3xl'>Get contact with the instructor</p>
+              <div className='w-[50px] h-[50px] bg-Dblue rounded-[10px] mx-10 flex justify-center items-center text-3xl'>
+                <i className="fa-solid fa-check text-white"></i>
+              </div>
+              <p className='text-3xl'>Get contact with the instructor</p>
             </div>
             <div className='flex items-center my-8'>
-                <div className='w-[50px] h-[50px] bg-Dblue rounded-[10px] mx-10'></div>
-                <p className='text-3xl'>Finally get started your program</p>
+              <div className='w-[50px] h-[50px] bg-Dblue rounded-[10px] mx-10 flex justify-center items-center text-3xl'>
+                <i className="fa-solid fa-check text-white"></i>
+              </div>
+              <p className='text-3xl'>Finally get started your program</p>
             </div>
             <button className='w-24 bg-Dblue text-white h-[40px] w-[300px] text-xl font-medium m-6 rounded-[50px] '>
                 See all our admissions</button>
