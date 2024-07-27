@@ -14,7 +14,7 @@ const Page2 = () => {
             <div>
                <img src="Rectangle 12.png" width={'630px'} alt="" />
             </div>
-            <div className='flex flex-col justify-between'>
+            <div className='flex flex-col justify-between w-[50%]'>
                <img src="Rectangle 13.png" width={'400px'} alt="" />
                <p>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, blanditiis quis debitis eos sed sapiente hic! Reiciendis accusamus impedit dolores?
