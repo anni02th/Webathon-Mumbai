@@ -3,7 +3,7 @@ import '../main.css'
 
 const Header = () => {
   return (
-    <div className='flex justify-between p-4 '>
+    <div className='flex justify-between p-4 relative z-1000 top-0'>
       <div className='text-white flex gap-4'>
          <a href="#Home">Home</a>
          <a href="#Aboutus">About Us</a>

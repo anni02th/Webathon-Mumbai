@@ -1,20 +1,22 @@
-import { useState } from 'react'
-import './main.css'
-import Header from './components/header'
+import { useState } from 'react';
+import './main.css';
 import Footer from './components/footer'
+import Hero from './components/page1'
+import Header from './components/header'
+import Page2 from './components/page2';
 
 function App() {
-
   return (
-    <>
-      <body className='bg-black h-[100vh] w-[100%] text-white'>
-        <Header />
-        body
-      </body>
-      <Footer />
-
-    </>
-  )
+    <div className='min-h-screen flex flex-col'>
+      <Header/>
+      <main className="flex-grow">
+        <Hero />
+        <Page2 />
+        {/* Additional page content can go here */}
+      </main>
+      <Footer/>
+    </div>
+  );
 }
 
-export default App
+export default App;
