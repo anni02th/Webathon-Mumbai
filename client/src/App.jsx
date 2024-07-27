@@ -7,6 +7,7 @@ import Page2 from './components/page2';
 import Page3 from './components/page3';
 import Page4 from './components/page4';
 import Page5 from './components/page5';
+import Page6 from './components/page6';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Page3 />
         <Page4 />
         <Page5 />
+        <Page6 />
         {/* Additional page content can go here */}
       </main>
       <Footer/>
