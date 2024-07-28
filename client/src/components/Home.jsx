@@ -14,7 +14,7 @@ const Home = () => {
        <Header/>
         <Page1 />
         <Page2 />
-        <Page3/>
+        <Page3 />
         <Page4 />
         <Page5 />
         <Page6 />
