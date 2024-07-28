@@ -1,25 +1,23 @@
-import { useState } from 'react';
-import {BrowserRouter,Routes,Route} from 'react-router-dom'
-import './main.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
-import Signin from './components/login/signin';
+import Signin from './components/login/signin.jsx';
+import AdminPage from './components/pages/adminpage';
+import StudentPage from './components/pages/studentpage';
+import FacultyPage from './components/pages/facultypage.jsx';
+import AlumniPage from './components/pages/alumnipage.jsx';
 
 function App() {
   return (
-    <div className='min-h-screen flex flex-col bg-[#EAEAEA]'>
-      <BrowserRouter>
-
-        <Routes>
-          <Route path='/' element={ <Home />}></Route>
-          <Route path="/signin" element={<Signin />}></Route>
-          {/* <Route path="/forgotPassword" element={<ForgotPassword />}></Route>
-          <Route path="/resetPassword/:token" element={<ResetPassword />}></Route>
-          <Route path="/dashboard" element={<DashBoard />}></Route> */}
-
-        </Routes>
-
-      </BrowserRouter>
-      </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/signin" element={<Signin />} />
+        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/student" element={<StudentPage />} />
+        <Route path="/faculty" element={<FacultyPage />} />
+        <Route path="/alumni" element={<AlumniPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
