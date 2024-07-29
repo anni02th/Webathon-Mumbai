@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { AiOutlineGoogle } from 'react-icons/ai';
 
 const Signin = () => {
   const [isSignUp, setIsSignUp] = useState(false);
