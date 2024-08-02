@@ -6,24 +6,17 @@ const Header = () => {
 
 
   return (
-    <div className='flex justify-between p-4 relative z-1000 top-0'>
-      <div className='text-Dblue font-medium flex gap-4'>
-         <a href="#Home">Home</a>
-         <a href="#Aboutus">About Us</a>
+    <div className='flex justify-between relative z-1000 top-0'>
+      <div className='text-Dblue font-normal text-xl flex gap-1'>
+        <a href="#" className='p-3'>
+          <h1 className='text-2xl font-bold'>K. K. Wagh</h1>
+        </a>
+        <a href="#Home" className='p-3 hover:bg-Lblue transition duration-300'>Home</a>
+        <a href="#Aboutus" className='p-3 hover:bg-Lblue transition duration-300'>Faculty</a>
+        <a href="#Aboutus" className='p-3 hover:bg-Lblue transition duration-300'>Departments</a>
+        <a href="#Aboutus" className='p-3 hover:bg-Lblue transition duration-300'>Resources</a>
       </div>
-      <div>
-         <a href="#">
-            <h1 className='text-2xl font-bold'>Univerz University</h1>
-         </a>
-      </div>
-      <div className='text-black flex gap-4'>
-         {/* <select name="login" >
-            <option value="none">Login</option>
-            <option value="as-Admin">as Admin</option>
-            <option value="as-Faculty">as Faculty</option>
-            <option value="as-Student">as Student</option>
-            <option value="as-Alumni">as Alumni</option>
-         </select> */}
+      <div className='text-black flex gap-1 p-3'>
         <Link to="/signin?mode=login">
           <button className="bg-Dblue text-white py-1 px-6 rounded-sm mr-4 hover:bg-Dbblue transition duration-200 ">Login</button>
         </Link>
@@ -34,6 +27,5 @@ const Header = () => {
     </div>
   );
 }
-
 
 export default Header;
