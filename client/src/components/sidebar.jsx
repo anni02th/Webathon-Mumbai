@@ -1,56 +1,65 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { HiOutlineHome } from "react-icons/hi";
+import { CiFolderOn } from "react-icons/ci";
+import { GoPeople } from "react-icons/go";
+import { IoCalendarOutline } from "react-icons/io5";
+import { HiOutlineUserGroup } from "react-icons/hi2";
+
 
 const Sidebar = () => {
   const [isDatabaseDropdownOpen, setIsDatabaseDropdownOpen] = useState(false);
+  const [isDatabaseDropdownOpen2, setIsDatabaseDropdownOpen2] = useState(false);
 
   const toggleDatabaseDropdown = () => {
     setIsDatabaseDropdownOpen(!isDatabaseDropdownOpen);
   };
+  const toggleDatabaseDropdown2 = () => {
+    setIsDatabaseDropdownOpen2(!isDatabaseDropdownOpen2);
+  };
 
   return (
-    <div className="flex p-4 bg-[#F4F4F4] gap-2 text-lg w-fit">
-      <ul>
-        <li>
-          <Link to="/">
-            <i className="fas fa-home"></i>
+    <div className="flex flex-col p-4 bg-[#F4F4F4] gap-2 text-lg w-[20%]">
+      <button onClick={toggleDatabaseDropdown} className="dropdown-button flex gap-2 items-center font-medium">
+            <HiOutlineHome />
             Dashboard
-          </Link>
-        </li>
+            <i className={`fas fa-chevron-${isDatabaseDropdownOpen ? 'up' : 'down'}`}></i>
+          </button>
+          {isDatabaseDropdownOpen && (
+            <ul className="dropdown ml-8">
         <li>
-          <Link to="/departments">
-            <i className="fas fa-folder"></i>
+          <Link to="/departments" className='flex gap-2 items-center'>
+          <CiFolderOn />
             Departments
           </Link>
         </li>
         <li>
-          <Link to="/faculty">
-            <i className="fas fa-user-graduate"></i>
+          <Link to="/faculty" className='flex gap-2 items-center'>
+          <GoPeople />
             Faculty
           </Link>
         </li>
         <li>
-          <Link to="/academic-calendar">
-            <i className="fas fa-calendar-alt"></i>
+          <Link to="/academic-calendar" className='flex gap-2 items-center'>
+          <IoCalendarOutline />
             Academic Calendar
           </Link>
         </li>
         <li>
-          <button onClick={toggleDatabaseDropdown} className="dropdown-button">
-            <i className="fas fa-database"></i>
+          <button onClick={toggleDatabaseDropdown2} className="dropdown-button flex gap-2 items-center mt-4">
             Database
-            <i className={`fas fa-chevron-${isDatabaseDropdownOpen ? 'up' : 'down'}`}></i>
+            <i className={`fas fa-chevron-${isDatabaseDropdownOpen2 ? 'up' : 'down'}`}></i>
           </button>
-          {isDatabaseDropdownOpen && (
-            <ul className="dropdown">
+          {isDatabaseDropdownOpen2 && (
+            <ul className="dropdown ml-8">
               <li>
-                <Link to="/student">
-                  <i className="fas fa-users"></i>
+                <Link to="/student"  className='flex gap-2 items-center'>
+                <HiOutlineUserGroup />
                   Student
                 </Link>
               </li>
               <li>
-                <Link to="/faculty">
+                <Link to="/faculty" className='flex gap-2 items-center'>
                   <i className="fas fa-user-graduate"></i>
                   Faculty
                 </Link>
@@ -58,19 +67,21 @@ const Sidebar = () => {
             </ul>
           )}
         </li>
-        <li>
-          <Link to="/settings">
-            <i className="fas fa-cog"></i>
-            Settings
-          </Link>
-        </li>
-        <li>
-          <Link to="/logout">
-            <i className="fas fa-sign-out-alt"></i>
-            Logout
-          </Link>
-        </li>
-      </ul>
+      </ul>)}
+        <ul className='absolute bottom-0 m-5'>
+          <li>
+            <Link to="/settings" className='flex gap-2 items-center'>
+              <i className="fas fa-cog"></i>
+              Settings
+            </Link>
+          </li>
+          <li>
+            <Link to="/logout" className='flex gap-2 items-center'>
+              <i className="fas fa-sign-out-alt"></i>
+              Logout
+            </Link>
+          </li>
+        </ul>
     </div>
   );
 };
