@@ -19,7 +19,7 @@ const StudentPage = () => {
   return (
     <div className='bg-green-700'>
       <h1>Student Page</h1>
-      <p className='text-white'>{message}</p>
+      <p className='text-black'>{message}</p>
     </div>
   );
 };

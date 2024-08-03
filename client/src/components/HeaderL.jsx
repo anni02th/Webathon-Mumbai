@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { PiUserCircleFill } from "react-icons/pi";
 
 const HeaderL = () => {
@@ -10,10 +11,11 @@ const HeaderL = () => {
          <a href="#resources" className='hover:text-Dblue transform ease-in-out'>Resources</a>
          <a href="#studentForm" className='hover:text-Dblue transform ease-in-out'>Student Forum</a>
       </div>
-      <div className='flex justify-center items-center gap-2 text-lg mr-12 hover:bg-Dblue hover:text-white rounded-xl px-4 py-[2px]'>
-         <PiUserCircleFill className='size-8'/>
-         Login
-      </div>
+      
+      <Link to="/signin?mode=login" className='flex justify-center items-center gap-2 text-lg mr-12 hover:bg-Dblue hover:text-white rounded-xl px-4 py-[2px]'>
+          <PiUserCircleFill className='size-8'/>
+          Login
+      </Link>
     </div>
   )
 }
