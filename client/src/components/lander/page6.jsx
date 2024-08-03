@@ -53,7 +53,7 @@ const Page6 = () => {
             <img
               src="Rectangle 22-2.png"
               alt="Library"
-              className=" mb-4"
+              className=" mb-4 rounded-lg"
             />
             <div className='p-6'>
               <button className="bg-Dblue text-white py-1 px-6 rounded-full mb-4 mr-4 hover:bg-Dbblue transition duration-200 w-[180px] self-end">

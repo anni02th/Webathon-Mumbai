@@ -11,7 +11,7 @@ export default {
       colors: {
         "Dblue":"#01427A",
         "Dbblue":"#02427acf",
-        "Lblue":"#6dcefb40",
+        "Lblue":"#6dcefb30",
       },
     },
   },
