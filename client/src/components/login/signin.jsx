@@ -31,9 +31,8 @@ const Signin = () => {
       navigate('/student');
     } else if (email === 'faculty@example.com' && password === 'facultypass' && role === 'Faculty') {
       navigate('/faculty');
-    } else if (email === 'alumni@example.com' && password === 'alumnipass' && role === 'Alumni') {
-      navigate('/alumni');
-    } else {
+    } 
+    else {
       alert('Invalid credentials or role');
     }
   };

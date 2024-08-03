@@ -4,17 +4,16 @@ import '../main.css';
 
 const Header = () => {
 
-
   return (
     <div className='flex justify-between relative z-1000 top-0'>
       <div className='text-Dblue font-normal text-xl flex gap-1'>
-        <a href="#" className='p-3'>
+        <a href="/" className='p-3'>
           <h1 className='text-2xl font-bold'>K. K. Wagh</h1>
         </a>
-        <a href="#Home" className='p-3 hover:bg-Lblue transition duration-300'>Home</a>
-        <a href="#Aboutus" className='p-3 hover:bg-Lblue transition duration-300'>Faculty</a>
-        <a href="#Aboutus" className='p-3 hover:bg-Lblue transition duration-300'>Departments</a>
-        <a href="#Aboutus" className='p-3 hover:bg-Lblue transition duration-300'>Resources</a>
+        <a href="/Home" className='p-3 hover:bg-Lblue transition duration-300'>Home</a>
+        <a href="/Aboutus" className='p-3 hover:bg-Lblue transition duration-300'>Faculty</a>
+        <a href="/" className='p-3 hover:bg-Lblue transition duration-300'>Departments</a>
+        <a href="/" className='p-3 hover:bg-Lblue transition duration-300'>Resources</a>
       </div>
       <div className='text-black flex gap-1 p-3'>
         <Link to="/signin?mode=login">
