@@ -13,7 +13,7 @@ const Resources = () => {
     <div>
       <Header/>
 
-      <div className="flex flex-wrap gap-4  justify-center items-center m-auto w-[80%] ">
+      <div className="flex flex-wrap gap-4  justify-center items-center m-auto w-[80%] h-[100vh] ">
         <div className='m-6 relative '>
           <div className='h-[6rem] w-[6rem] rounded-full bg-[#fff] p-2 flex justify-center items-center relative left-1/3 top-10 cursor-pointer border-solid border-2 shadow-lg shadow-[#00000033]' onClick={handleClick}>
             <img src="/amico.png" alt="" />

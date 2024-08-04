@@ -39,10 +39,11 @@ const Signin = () => {
 
   return (
     <div className="flex h-screen">
-      <div className="w-1/4 bg-blue-900"></div>
-      <div className="w-3/4 flex flex-col items-center justify-center p-10 bg-white">
+      <div className="w-1/4 bg-blue-900 max-sm:hidden "></div>
+
+      <div className="w-3/4 flex flex-col items-center justify-center p-10 bg-white max-sm:w-full">
         <div className="w-full max-w-md">
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">
+          <h2 className="text-3xl font-bold text-gray-800 mb-4 ">
             {isSignUpState ? 'Sign Up' : 'Login'}
           </h2>
           <form className="space-y-4" onSubmit={handleLogin}>
