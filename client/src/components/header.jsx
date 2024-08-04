@@ -5,7 +5,7 @@ import '../main.css';
 const Header = () => {
 
   return (
-    <div className='flex justify-between relative z-1000 top-0'>
+    <div className='flex justify-between relative z-1000 top-0 border-2 border-solid border-b-[#C2C2C2]'>
       <div className='text-Dblue font-normal text-xl flex gap-1'>
         <Link to="/" className='p-3'><h1 className='text-2xl font-bold'>K. K. Wagh</h1></Link>
         <div className='flex justify-center items-center max-md:hidden'>
