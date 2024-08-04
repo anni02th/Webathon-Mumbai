@@ -15,7 +15,8 @@ const HeaderL = () => {
         </div>
       </div>
       
-      <Link to="/signin?mode=login" className='flex justify-center items-center gap-2 text-lg mr-12 hover:bg-Dblue hover:text-white rounded-xl px-4 py-[2px]'>
+      <Link to="/signin?mode=login" className='flex justify-center items-center gap-2 text-lg mr-12 hover:bg-Dblue 
+      hover:text-white px-4 py-[2px] transition duration-200 rounded-sm'>
           <PiUserCircleFill className='size-8'/>
           Logout
       </Link>

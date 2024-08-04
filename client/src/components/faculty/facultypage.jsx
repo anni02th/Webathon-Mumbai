@@ -1,29 +1,29 @@
 import React, { useState } from 'react';
 import HeaderL from '../HeaderL';
 import Footer from '../footer';
-import Sidebar from '../sidebar';
+import Sidebar from './sidebar';
 import Card from '../card';
-import Department from './departments';
-import Faculty from './faculty';
-import Calendar from './academicCalendar';
+import StudyMaterial from './StudyMaterial';
+import Attendance from './attendance';
 
-const Adminpage = () => {
+const Facultypage = () => {
   const [selectedCard, setSelectedCard] = useState(null);
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
+    
   };
 
   const renderCards = () => (
     <div className='container flex p-4 gap-8 h-[100vh]'>
-      <div onClick={() => handleCardClick('Departments')}>
-        <Card heading='Departments' srcimg='/admin1.png' />
+      <div onClick={() => handleCardClick('Upload Study Material')} className='w-fit h-fit hover:cursor-pointer'>
+        <Card heading='Upload Study Material' srcimg='/faculty1.png' />
       </div>
-      <div onClick={() => handleCardClick('Faculty')}>
-        <Card heading='Faculty' srcimg='/admin2.png' />
+      <div onClick={() => handleCardClick('Update Attendance')} className='w-fit h-fit hover:cursor-pointer'>
+        <Card heading='Update Attendance' srcimg='/faculty2.png' />
       </div>
-      <div onClick={() => handleCardClick('Academic Calendar')}>
-        <Card heading='Academic Calendar' srcimg='/admin3.png' />
+      <div onClick={() => handleCardClick('Time Table')} className='w-fit h-fit hover:cursor-pointer'>
+        <Card heading='View Time Table' srcimg='/faculty3.png' />
       </div>
     </div>
   );
@@ -40,9 +40,9 @@ const Adminpage = () => {
         <h2 className='text-2xl font-bold'>{selectedCard}</h2>
       </div>
       
-      {selectedCard === 'Departments' && <Department/>}
-      {selectedCard === 'Faculty' && <Faculty/>}
-      {selectedCard === 'Academic Calendar' && <Calendar/> }
+      {selectedCard === 'Upload Study Material' && <StudyMaterial />}
+      {selectedCard === 'Update Attendance' && <Attendance />}
+      {selectedCard === 'Time Table' && <img src="/timetable.jpg" className="w-[100%] h-[100vh] object-contain object-top" />}
     </div>
   );
 
@@ -50,7 +50,7 @@ const Adminpage = () => {
     <div>
       <HeaderL />
       <section className='flex'>
-        <Sidebar />
+        <Sidebar onSectionClick={handleCardClick} />
         {selectedCard ? renderSelectedContent() : renderCards()}
       </section>
       <Footer />
@@ -58,4 +58,4 @@ const Adminpage = () => {
   );
 };
 
-export default Adminpage;
+export default Facultypage;

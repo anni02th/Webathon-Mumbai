@@ -3,9 +3,11 @@ import HeaderL from '../HeaderL';
 import Footer from '../footer';
 import Sidebar from '../sidebar';
 import Card from '../card';
-import StudyMaterial from './StudyMaterial';
+import Department from './departments';
+import Faculty from './faculty';
+import Calendar from './academicCalendar';
 
-const Facultypage = () => {
+const Adminpage = () => {
   const [selectedCard, setSelectedCard] = useState(null);
 
   const handleCardClick = (card) => {
@@ -14,14 +16,14 @@ const Facultypage = () => {
 
   const renderCards = () => (
     <div className='container flex p-4 gap-8 h-[100vh]'>
-      <div onClick={() => handleCardClick('StudyMaterial')}>
-        <Card heading='Upload Study Material' srcimg='/faculty1.png' />
+      <div onClick={() => handleCardClick('Departments')} className='w-fit h-fit hover:cursor-pointer' >
+        <Card heading='Departments' srcimg='/admin1.png' />
       </div>
-      <div onClick={() => handleCardClick('Attendance')}>
-        <Card heading='Update Attendance' srcimg='/faculty2.png' />
+      <div onClick={() => handleCardClick('Faculty')} className='w-fit h-fit hover:cursor-pointer'>
+        <Card heading='Faculty' srcimg='/admin2.png' />
       </div>
-      <div onClick={() => handleCardClick('TimeTable')}>
-        <Card heading='View Time Table' srcimg='/faculty3.png' />
+      <div onClick={() => handleCardClick('Academic Calendar')} className='w-fit h-fit hover:cursor-pointer'>
+        <Card heading='Academic Calendar' srcimg='/admin3.png' />
       </div>
     </div>
   );
@@ -38,9 +40,9 @@ const Facultypage = () => {
         <h2 className='text-2xl font-bold'>{selectedCard}</h2>
       </div>
       
-      {selectedCard === 'StudyMaterial' && <StudyMaterial/>}
-      {selectedCard === 'Attendance'}
-      {selectedCard === 'TimeTable' && <img src="/timetable.jpg" className="w-[90%] h-[100vh] object-contain object-top" /> }
+      {selectedCard === 'Departments' && <Department/>}
+      {selectedCard === 'Faculty' && <Faculty/>}
+      {selectedCard === 'Academic Calendar' && <Calendar/> }
     </div>
   );
 
@@ -56,4 +58,4 @@ const Facultypage = () => {
   );
 };
 
-export default Facultypage;
+export default Adminpage;

@@ -1,10 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './components/Home';
+import Home from './components/Home.jsx';
 import Signin from './components/login/signin.jsx';
-import AdminPage from './components/pages/adminpage';
-import StudentPage from './components/pages/studentpage';
-import FacultyPage from './components/pages/facultypage.jsx';
-import AlumniPage from './components/pages/alumnipage.jsx';
+import AdminPage from './components/admin/adminpage.jsx';
+import StudentPage from './components/student/studentpage.jsx';
+import FacultyPage from './components/faculty/facultypage.jsx';
 import Faculty from './components/onHome/faculty.jsx';
 import Department from './components/onHome/department.jsx';
 import Resources from './components/onHome/resources.jsx';
@@ -20,7 +19,6 @@ function App() {
         <Route path="/faculty" element={<Faculty />} />
         <Route path="/facultypage" element={<FacultyPage />} />
         <Route path="/departments" element={<Department />} />
-        <Route path="/alumni" element={<AlumniPage />} />
         <Route path="/resource" element={<Resources />} />
       </Routes>
     </BrowserRouter>
