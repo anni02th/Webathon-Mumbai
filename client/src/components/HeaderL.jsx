@@ -4,7 +4,7 @@ import { PiUserCircleFill } from "react-icons/pi";
 
 const HeaderL = () => {
   return (
-    <div className='flex font-medium gap-4 items-center justify-between bg-white border-2 border-solid border-b-[#C2C2C2]'>
+    <div className='w-[100%] flex font-medium gap-4 items-center justify-between bg-white border-2 border-solid border-b-[#C2C2C2]'>
       <div className='text-Dblue font-normal text-xl flex gap-1'>
         <a href="/" className='p-3'>
           <h1 className='text-2xl font-bold'>K. K. Wagh</h1>
