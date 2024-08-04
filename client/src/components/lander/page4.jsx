@@ -15,7 +15,7 @@ const Page4 = () => {
         </p>
       </div>
       
-      <div className='flex justify-center items-center w-[100%]'>
+      <div className='flex justify-center items-center w-[100%] max-lg:flex-col'>
         <img src="page4-1.png" alt="" className='m-4' />
         <div>
             <div className='flex items-center my-8'>
@@ -48,7 +48,7 @@ const Page4 = () => {
               </div>
               <p className='text-3xl'>Finally get started your program</p>
             </div>
-            <button className=' bg-Dblue text-white h-[40px] w-[300px] text-xl font-medium m-6 rounded-[50px] '>
+            <button className=' bg-Dblue text-white py-1 px-6 rounded-full mr-4 hover:bg-Dbblue transition duration-200 h-[40px] w-[300px] '>
                 See all our admissions</button>
         </div>
       </div> 

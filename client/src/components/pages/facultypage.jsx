@@ -49,7 +49,15 @@ const Facultypage = () => {
       <HeaderL />
       <section className='flex'>
         <Sidebar />
+<<<<<<< HEAD
         {selectedCard ? renderSelectedContent() : renderCards()}
+=======
+        <div className='flex p-4 gap-8 '>
+          <Card heading={"Upload Study Material"} srcimg="./faculty1.png" />
+          <Card heading={"Update Attendance"} srcimg="./faculty2.png" /> 
+          <Card heading={"View Time Table"} srcimg="./faculty3.png" />
+        </div>
+>>>>>>> 819b5a05cd4766fec7a8eb47017a1b167246d406
       </section>
       <Footer />
     </div>

@@ -30,7 +30,7 @@ const Signin = () => {
     } else if (email === 'student@example.com' && password === 'studentpass' && role === 'Student') {
       navigate('/student');
     } else if (email === 'faculty@example.com' && password === 'facultypass' && role === 'Faculty') {
-      navigate('/faculty');
+      navigate('/facultypage');
     } 
     else {
       alert('Invalid credentials or role');

@@ -64,7 +64,7 @@ const Page3 = () => {
             </div>
         </div>
       </div>
-      <button className='w-24 bg-Dblue text-white h-[40px] w-[300px] text-xl font-semibold m-6 rounded-[50px] '>View All</button>
+      <button className='bg-Dblue text-white py-1 px-6 rounded-full mr-4 hover:bg-Dbblue transition duration-200 h-[40px] w-[300px] text-xl'>View All</button>
     </div>
   )
 }

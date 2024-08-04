@@ -20,7 +20,7 @@ const Sidebar = () => {
 
   return (
     <div className="flex flex-col p-4 bg-[#F4F4F4] gap-2 text-lg w-[20%]">
-      <button onClick={toggleDatabaseDropdown} className="dropdown-button flex gap-2 items-center font-medium">
+      <button onClick={toggleDatabaseDropdown} className="dropdown-button flex gap-2 text-black items-center font-medium">
             <HiOutlineHome />
             Dashboard
             <i className={`fas fa-chevron-${isDatabaseDropdownOpen ? 'up' : 'down'}`}></i>
@@ -46,7 +46,7 @@ const Sidebar = () => {
           </Link>
         </li>
         <li>
-          <button onClick={toggleDatabaseDropdown2} className="dropdown-button flex gap-2 items-center mt-4">
+          <button onClick={toggleDatabaseDropdown2} className="dropdown-button text-black flex gap-2 items-center mt-4">
             Database
             <i className={`fas fa-chevron-${isDatabaseDropdownOpen2 ? 'up' : 'down'}`}></i>
           </button>
