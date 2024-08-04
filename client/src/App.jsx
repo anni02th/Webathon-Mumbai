@@ -7,6 +7,7 @@ import FacultyPage from './components/pages/facultypage.jsx';
 import AlumniPage from './components/pages/alumnipage.jsx';
 import Faculty from './components/onHome/faculty.jsx';
 import Department from './components/onHome/department.jsx';
+import Resources from './components/onHome/resources.jsx';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/facultypage" element={<FacultyPage />} />
         <Route path="/departments" element={<Department />} />
         <Route path="/alumni" element={<AlumniPage />} />
+        <Route path="/resource" element={<Resources />} />
       </Routes>
     </BrowserRouter>
   );

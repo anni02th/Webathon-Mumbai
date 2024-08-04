@@ -15,7 +15,7 @@ const Page4 = () => {
         </p>
       </div>
       
-      <div className='flex justify-center items-center w-[100%]'>
+      <div className='flex justify-center items-center w-[100%] max-lg:flex-col'>
         <img src="page4-1.png" alt="" className='m-4' />
         <div>
             <div className='flex items-center my-8'>

@@ -15,9 +15,9 @@ const Page5 = () => {
         </p>
       </div>
 
-        <div className='relative flex  w-[80%] self-center justify-evenly m-8'>
+        <div className='relative flex  w-[80%] self-center justify-evenly m-8 shrink-2 max-lg:flex-col'>
             <i className="fa-solid fa-angle-left text-4xl m-16"></i>
-            <div className='flex flex-col items-center justify-center '>
+            <div className='flex flex-col items-center justify-center'>
                 <img src="page5-1.png" alt="" />
                 <h1 className='text-3xl m-8 font-semibold'>Carmen Hodkiewicz</h1>
                 <p className='text-lg'>Global Markets Engineer</p>

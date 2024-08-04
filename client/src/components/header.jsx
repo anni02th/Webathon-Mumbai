@@ -7,14 +7,13 @@ const Header = () => {
   return (
     <div className='flex justify-between relative z-1000 top-0'>
       <div className='text-Dblue font-normal text-xl flex gap-1'>
-        <Link to="/" className='p-3'>
-          <h1 className='text-2xl font-bold'>K. K. Wagh</h1>
-        </Link>
-        
+        <Link to="/" className='p-3'><h1 className='text-2xl font-bold'>K. K. Wagh</h1></Link>
+        <div className='flex justify-center items-center max-md:hidden'>
         <Link to="/" className='p-3 hover:bg-Lblue transition duration-300'>Home</Link>
         <Link to="/faculty" className='p-3 hover:bg-Lblue transition duration-300'>Faculty</Link>
         <Link to="/departments" className='p-3 hover:bg-Lblue transition duration-300'>Departments</Link>
-        <Link to="/" className='p-3 hover:bg-Lblue transition duration-300'>Resources</Link>
+        <Link to="/resource" className='p-3 hover:bg-Lblue transition duration-300'>Resources</Link>
+        </div>
       </div>
       <div className='text-black flex gap-1 p-3'>
         <Link to="/signin?mode=login">
