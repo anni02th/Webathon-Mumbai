@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import HeaderL from '../HeaderL';
 import Footer from '../footer';
 import Sidebar from '../sidebar';

@@ -11,7 +11,6 @@ const Footer = () => {
         <div className='gap-4 flex flex-col text-xl'>
           <h2 className='text-2xl font-semibold mb-4'>Quick Links</h2>
           <a href='#'>Home</a>
-          <a href='#'>About Us</a>
           <a href='#'>Contact Us</a>
         </div>
         <div className='gap-4 flex flex-col text-xl'>
