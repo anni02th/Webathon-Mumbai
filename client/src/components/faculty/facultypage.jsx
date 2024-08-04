@@ -11,11 +11,10 @@ const Facultypage = () => {
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
-    
   };
 
   const renderCards = () => (
-    <div className='container flex p-4 gap-8 h-[100vh]'>
+    <div className='container flex p-4 gap-8 h-[100vh] justify-center'>
       <div onClick={() => handleCardClick('Upload Study Material')} className='w-fit h-fit hover:cursor-pointer'>
         <Card heading='Upload Study Material' srcimg='/faculty1.png' />
       </div>
@@ -42,7 +41,7 @@ const Facultypage = () => {
       
       {selectedCard === 'Upload Study Material' && <StudyMaterial />}
       {selectedCard === 'Update Attendance' && <Attendance />}
-      {selectedCard === 'Time Table' && <img src="/timetable.jpg" className="w-[100%] h-[100vh] object-contain object-top" />}
+      {selectedCard === 'Time Table' && <img src="/timetable.png" className="w-[100%] h-[100vh] object-contain object-top" />}
     </div>
   );
 

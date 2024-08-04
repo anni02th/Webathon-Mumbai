@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import HeaderL from '../HeaderL';
 import Footer from '../footer';
-import Sidebar from '../sidebar';
+import Sidebar from './sidebar';
 import Card from '../card';
 import Department from './departments';
 import Faculty from './faculty';
@@ -50,7 +50,7 @@ const Adminpage = () => {
     <div>
       <HeaderL />
       <section className='flex'>
-        <Sidebar />
+        <Sidebar onSectionClick={handleCardClick}/>
         {selectedCard ? renderSelectedContent() : renderCards()}
       </section>
       <Footer />

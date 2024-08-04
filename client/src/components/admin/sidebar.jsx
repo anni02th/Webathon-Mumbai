@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { GoPeople } from 'react-icons/go';
 import { HiOutlineHome } from "react-icons/hi";
 import { IoCalendarOutline } from "react-icons/io5";
 
@@ -30,27 +31,27 @@ const Sidebar = ({ onSectionClick }) => {
                 <ul className="flex flex-col gap-1">
                     <li
                         className={`flex gap-2 p-2 pl-8 items-center hover:bg-white 
-                            ${selectedSection === 'Upload Study Material' ? 'bg-white' : ''}`}
-                        onClick={() => handleSectionClick('Upload Study Material')}
+                            ${selectedSection === 'Departments' ? 'bg-white' : ''}`}
+                        onClick={() => handleSectionClick('Departments')}
                     >
-                        <i className="fa-solid fa-arrow-up-from-bracket"></i>
-                        Upload Study Material
+                        <i class="fa-regular fa-folder"></i>
+                        Departments
                     </li>
                     <li
                         className={`flex gap-2 p-2 pl-8 items-center hover:bg-white 
-                        ${selectedSection === 'Update Attendance' ? 'bg-white' : ''}`}
-                        onClick={() => handleSectionClick('Update Attendance')}
+                        ${selectedSection === 'Faculty' ? 'bg-white' : ''}`}
+                        onClick={() => handleSectionClick('Faculty')}
                     >
-                        <i className="fa-solid fa-arrow-rotate-right -rotate-90"></i>
-                        Update Attendance
+                        <GoPeople />
+                        Faculty
                     </li>
                     <li
                         className={`flex gap-2 p-2 pl-8 items-center hover:bg-white 
-                        ${selectedSection === 'Time Table' ? 'bg-white' : ''}`}
-                        onClick={() => handleSectionClick('Time Table')}
+                        ${selectedSection === 'Academic Calendar' ? 'bg-white' : ''}`}
+                        onClick={() => handleSectionClick('Academic Calendar')}
                     >
                         <IoCalendarOutline />
-                        Time Table
+                        Academic Calendar
                     </li>
                 </ul>
             )}
