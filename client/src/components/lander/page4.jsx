@@ -48,7 +48,7 @@ const Page4 = () => {
               </div>
               <p className='text-3xl'>Finally get started your program</p>
             </div>
-            <button className=' bg-Dblue text-white h-[40px] w-[300px] text-xl font-medium m-6 rounded-[50px] '>
+            <button className=' bg-Dblue text-white py-1 px-6 rounded-full mr-4 hover:bg-Dbblue transition duration-200 h-[40px] w-[300px] '>
                 See all our admissions</button>
         </div>
       </div> 

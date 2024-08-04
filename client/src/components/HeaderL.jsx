@@ -9,8 +9,8 @@ const HeaderL = () => {
         <a href="/" className='p-3'>
           <h1 className='text-2xl font-bold'>K. K. Wagh</h1>
         </a>
-        <a href="/Home" className='p-3 hover:bg-Lblue transition duration-300'>Home</a>
-        <a href="/Aboutus" className='p-3 hover:bg-Lblue transition duration-300'>Faculty</a>
+        <a href="/" className='p-3 hover:bg-Lblue transition duration-300'>Home</a>
+        <a href="/faculty" className='p-3 hover:bg-Lblue transition duration-300'>Faculty</a>
         <a href="/" className='p-3 hover:bg-Lblue transition duration-300'>Departments</a>
         <a href="/resources" className='p-3 hover:bg-Lblue transition duration-300'>Resources</a>
       </div>
