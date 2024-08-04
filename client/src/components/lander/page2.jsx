@@ -11,28 +11,30 @@ const Page2 = () => {
         </p>
       </div>
       <div className='flex gap-6'>
-        <div className='flex gap-6 '>
-          <div className='h-[100%] w-[40%]'>
-            <img src="Rectangle 12.png" alt="" />
+        <div className="flex flex-col md:flex-row gap-6 relative justify-between w-full">
+          <div className="flex justify-center md:justify-start w-full md:w-auto">
+            <img src="Rectangle 12.png" alt="Rectangle 12" />
           </div>
-          <div className='flex flex-col justify-between w-[45%]'>
-            <img src="Rectangle 13.png" width={'400px'} alt="" />
-            <p>
+          <div className="flex flex-col justify-between w-full md:w-[50%]">
+            <img src="Rectangle 13.png" width={'400px'} alt="Rectangle 13" className="self-center md:self-start" />
+            <p className="mt-4 md:mt-0">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, blanditiis quis debitis eos sed sapiente hic!
             </p>
-            <button className="bg-Dblue text-white py-1 px-6 rounded-full mr-4 hover:bg-Dbblue transition duration-200 w-[180px]">Read More</button>
+            <button className="bg-Dblue text-white py-1 px-6 rounded-full hover:bg-Dbblue transition duration-200 w-[180px] mt-4 md:mt-0 self-center md:self-start">
+              Read More
+            </button>
           </div>
-          <section className="absolute flex flex-col justify-center items-center bg-white rounded-2xl p-4 inset-[100] left-[25%] top-1/2">
-               <h3 className="text-Dblue text-xl font-bold">50k+</h3>
-               <h5 className="font-medium">Students</h5>
-               <div className="flex">
-                  <img src="Ellipse 1.png" alt="Student 1" className="z-10 relative left-3 border-2 border-white rounded-full"/>
-                  <img src="Ellipse 3.png" alt="Student 2" className="z-20 relative left-0 border-2 border-white rounded-full"/>
-                  <img src="Ellipse 4.png" alt="Student 3" className="z-30 relative -left-3 border-2 border-white rounded-full"/>
-               </div>
-           </section>
-          
+          <section className="absolute flex flex-col justify-center items-center bg-white rounded-2xl p-4 top-1/2 left-1/2 transform -translate-x-[15%] -translate-y-1/2">
+            <h3 className="text-Dblue text-xl font-bold">50k+</h3>
+            <h5 className="font-medium">Students</h5>
+            <div className="flex mt-2">
+              <img src="Ellipse 1.png" alt="Student 1" className="z-10 relative left-3 border-2 border-white rounded-full" />
+              <img src="Ellipse 3.png" alt="Student 2" className="z-20 relative left-0 border-2 border-white rounded-full" />
+              <img src="Ellipse 4.png" alt="Student 3" className="z-30 relative -left-3 border-2 border-white rounded-full" />
+            </div>
+          </section>
         </div>
+
         <div className='flex flex-col justify-between text-2xl'>
           <span className='flex flex-col justify-center items-center bg-white rounded-xl px-10 py-4'>
             <h5 className='text-Dblue font-medium'>35+</h5>
