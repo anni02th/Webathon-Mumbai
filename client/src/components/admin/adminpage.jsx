@@ -15,7 +15,7 @@ const Adminpage = () => {
   };
 
   const renderCards = () => (
-    <div className='container flex p-4 gap-8 h-[100vh]'>
+    <div className='container flex p-4 gap-8 h-[100vh] flex-wrap max-md:flex-col'>
       <div onClick={() => handleCardClick('Departments')} className='w-fit h-fit hover:cursor-pointer' >
         <Card heading='Departments' srcimg='/admin1.png' />
       </div>
