@@ -8,7 +8,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('Admin');
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
   const { setUser } = useAuth();
 
   // Remove the isLoggedIn state and related effect
