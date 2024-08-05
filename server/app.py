@@ -21,8 +21,9 @@ app.config["JWT_SECRET_KEY"] = "jyotidagamore"
 # Secret key for session management
 app.secret_key = 'kinggolu43'  # Replace with your secret key
 
-# MongoDB users collection
+# MongoDB collections
 users_collection = mongo.db.logins
+students_collection = mongo.db.students  # New collection for student info and attendance
 
 @app.route('/signup', methods=['POST'])
 def signup():
@@ -81,6 +82,44 @@ def get_user_info():
 def logout():
     session.pop('user_id', None)  # Clear the session
     return jsonify({'message': 'Logged out successfully'}), 200
+
+# Route to transfer data from logins to students
+@app.route('/transfer_data', methods=['POST'])
+def transfer_data():
+    logins = users_collection.find({"role": "Student"})
+    for login in logins:
+        student = {
+            'student_id': login['_id'],
+            'username': login['email'],
+            'email': login['email'],
+            'attendance': []  # Additional field for attendance
+        }
+        students_collection.insert_one(student)
+    return jsonify({"msg": "Data transferred successfully!"}), 200
+
+# Route to add attendance data
+@app.route('/add_attendance', methods=['POST'])
+def add_attendance():
+    student_id = request.json['student_id']
+    attendance_record = {
+        'date': request.json['date'],
+        'type': request.json['type'],
+        'status': request.json['status']  # 'Present' or 'Absent'
+    }
+    students_collection.update_one(
+        {'student_id': ObjectId(student_id)},
+        {'$push': {'attendance': attendance_record}}
+    )
+    return jsonify({'msg': 'Attendance added successfully!'}), 200
+
+# Route to get student data
+@app.route('/students/<student_id>', methods=['GET'])
+def get_student(student_id):
+    student = students_collection.find_one({'student_id': ObjectId(student_id)})
+    if student:
+        return jsonify(student), 200
+    else:
+        return jsonify({'error': 'Student not found!'}), 404
 
 # Test MongoDB connection
 @app.route('/test_mongo', methods=['GET'])
