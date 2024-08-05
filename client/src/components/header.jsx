@@ -1,13 +1,21 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../components/context/AuthContext';
 import '../main.css';
 
 const Header = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const currentPath = location.pathname;
+  const { user, logout } = useAuth();
 
   const getLinkClass = (path) => {
     return currentPath === path ? 'p-3 bg-Lblue' : 'p-3 hover:bg-Lblue transition duration-300';
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
   };
 
   return (
@@ -22,12 +30,20 @@ const Header = () => {
         </div>
       </div>
       <div className='text-black flex gap-1 p-3'>
-        <Link to="/login">
-          <button className="bg-Dblue text-white py-1 px-6 rounded-sm mr-4 hover:bg-Dbblue transition duration-200">Login</button>
-        </Link>
-        <Link to="/signup">
-          <button className="bg-white text-Dblue py-1 px-6 rounded-sm mr-4 border-solid border-Dblue border-[1px] hover:bg-Dblue hover:text-white transition duration-200">Sign Up</button>
-        </Link>
+        {user ? (
+          <button onClick={handleLogout} className="bg-Dblue text-white py-1 px-6 rounded-sm mr-4 hover:bg-Dbblue transition duration-200">
+            {user.name} (Logout)
+          </button>
+        ) : (
+          <>
+            <Link to="/login">
+              <button className="bg-Dblue text-white py-1 px-6 rounded-sm mr-4 hover:bg-Dbblue transition duration-200">Login</button>
+            </Link>
+            <Link to="/signup">
+              <button className="bg-white text-Dblue py-1 px-6 rounded-sm mr-4 border-solid border-Dblue border-[1px] hover:bg-Dblue hover:text-white transition duration-200">Sign Up</button>
+            </Link>
+          </>
+        )}
       </div>
     </div>
   );

@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AiOutlineGoogle } from 'react-icons/ai';
+import { useAuth } from '../context/AuthContext'; // Ensure you have this hook
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('Admin');
   const navigate = useNavigate();
+  const { setUser } = useAuth();
+
+  // Remove the isLoggedIn state and related effect
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigateToLastPage(); // If logged in, navigate to last page
+    }
+  }, [navigate]);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -19,20 +29,37 @@ const Login = () => {
       });
 
       if (response.status === 200) {
-        // Handle successful login (e.g., redirect to appropriate page)
-        if (role === 'Admin') {
-          navigate('/admin');
-        } else if (role === 'Student') {
-          navigate('/student');
-        } else if (role === 'Faculty') {
-          navigate('/facultypage');
-        }
+        localStorage.setItem('token', response.data.token);
+        setUser({ email, role, token: response.data.token }); // Ensure setUser updates the context
+        alert('Logged in successfully!');
+        navigateToLastPage(); // Navigate after successful login
       } else {
         alert(response.data.message);
       }
     } catch (error) {
       console.error('Login error:', error);
       alert('Login failed. Please check your credentials.');
+    }
+  };
+
+  const navigateToLastPage = () => {
+    const lastPage = localStorage.getItem('lastPage');
+    if (lastPage) {
+      navigate(lastPage);
+    } else {
+      switch (role) {
+        case 'Admin':
+          navigate('/admin');
+          break;
+        case 'Student':
+          navigate('/student');
+          break;
+        case 'Faculty':
+          navigate('/facultypage');
+          break;
+        default:
+          navigate('/');
+      }
     }
   };
 
@@ -99,10 +126,7 @@ const Login = () => {
                   Remember me
                 </label>
               </div>
-              <a
-                className="text-gray-700 text-sm font-bold"
-                href="#"
-              >
+              <a className="text-gray-700 text-sm font-bold" href="#">
                 Forgot password?
               </a>
             </div>

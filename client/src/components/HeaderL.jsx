@@ -28,7 +28,7 @@ const HeaderL = () => {
     try {
       await axios.post('http://localhost:5000/logout', {}, { withCredentials: true });
       setUser(null);
-      navigate('/signin?mode=login');
+      navigate('/login');
     } catch (error) {
       console.error('Error during logout:', error);
     }
