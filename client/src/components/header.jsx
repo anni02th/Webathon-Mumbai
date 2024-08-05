@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { PiUserCircleFill } from "react-icons/pi";
 import { useAuth } from '../components/context/AuthContext';
 import '../main.css';
 
@@ -31,8 +32,10 @@ const Header = () => {
       </div>
       <div className='text-black flex gap-1 p-3'>
         {user ? (
-          <button onClick={handleLogout} className="bg-Dblue text-white py-1 px-6 rounded-sm mr-4 hover:bg-Dbblue transition duration-200">
-            {user.name} (Logout)
+          <button onClick={handleLogout} className='flex justify-center items-center gap-2 text-black text-lg hover:bg-Dblue 
+          hover:text-white px-4 py-[2px] transition duration-200 rounded-sm'>
+            {user.name} 
+            <div className='flex '><PiUserCircleFill className='size-8' /> Logout </div>
           </button>
         ) : (
           <>

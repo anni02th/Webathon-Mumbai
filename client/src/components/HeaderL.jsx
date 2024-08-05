@@ -24,14 +24,9 @@ const HeaderL = () => {
   }, []);
 
   // Handle logout
-  const handleLogout = async () => {
-    try {
-      await axios.post('http://localhost:5000/logout', {}, { withCredentials: true });
-      setUser(null);
-      navigate('/login');
-    } catch (error) {
-      console.error('Error during logout:', error);
-    }
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
   };
 
   return (
@@ -54,7 +49,7 @@ const HeaderL = () => {
         )}
         <button
           onClick={handleLogout}
-          className='flex justify-center items-center gap-2 text-lg hover:bg-Dblue 
+          className='flex justify-center items-center gap-2 text-black text-lg hover:bg-Dblue 
           hover:text-white px-4 py-[2px] transition duration-200 rounded-sm'
         >
           <PiUserCircleFill className='size-8' />
