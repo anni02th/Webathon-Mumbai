@@ -1,1 +1,6 @@
-backend goes here
+Flask
+Flask-Cors
+Flask-SQLAlchemy
+Flask-Bcrypt
+psycopg2-binary
+Flask-JWT-Extended
