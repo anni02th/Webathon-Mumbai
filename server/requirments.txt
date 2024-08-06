@@ -1,1 +1,1 @@
-Flask Flask-Cors Flask-SQLAlchemy Flask-Bcrypt psycopg2-binary Flask-JWT-Extended
+pip install Flask Flask-Cors Flask-SQLAlchemy Flask-Bcrypt psycopg2-binary Flask-JWT-Extended

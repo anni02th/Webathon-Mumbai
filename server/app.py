@@ -28,22 +28,40 @@ students_collection = mongo.db.students  # New collection for student info and a
 @app.route('/signup', methods=['POST'])
 def signup():
     data = request.get_json()
+    
+    # Extract all necessary fields from the request data
     email = data.get('email')
     password = data.get('password')
     role = data.get('role')
+    firstName = data.get('firstName')
+    lastName = data.get('lastName')
+    birthDate = data.get('birthDate')
 
-    if not email or not password or not role:
+    # Check if all required fields are provided
+    if not all([email, password, role, firstName, lastName, birthDate]):
         return jsonify({"msg": "Missing data"}), 400
 
+    # Check if user already exists
     if users_collection.find_one({"email": email}):
         return jsonify({"msg": "User already exists"}), 409
 
+    # Hash the password for security
     hashed_password = generate_password_hash(password)
-    users_collection.insert_one({
+    
+    # Prepare user data for insertion into MongoDB
+    user_data = {
         "email": email,
         "password": hashed_password,
-        "role": role
-    })
+        "role": role,
+        "firstName": firstName,
+        "lastName": lastName,
+        "birthDate": birthDate  # Include birth date in the user data
+    }
+
+    # Insert the new user into the database
+    users_collection.insert_one(user_data)
+    
+    # Return a success message
     return jsonify({"msg": "User created successfully"}), 201
 
 @app.route('/login', methods=['POST'])
@@ -83,43 +101,68 @@ def logout():
     session.pop('user_id', None)  # Clear the session
     return jsonify({'message': 'Logged out successfully'}), 200
 
-# Route to transfer data from logins to students
-@app.route('/transfer_data', methods=['POST'])
-def transfer_data():
-    logins = users_collection.find({"role": "Student"})
-    for login in logins:
-        student = {
-            'student_id': login['_id'],
-            'username': login['email'],
-            'email': login['email'],
-            'attendance': []  # Additional field for attendance
+@app.route('/api/attendance', methods=['GET'])
+def get_attendance():
+    # Fetch all students with their attendance
+    students = students_collection.find()
+    attendance_data = []
+
+    for student in students:
+        for att in student.get('attendance', []):
+            attendance_entry = {
+                'date': att['date'],
+                'type': att['type'],
+                'student': {
+                    'id': str(student['_id']),
+                    'name': student.get('username', 'Unknown'),
+                    'present': att['status'] == 'Present'
+                }
+            }
+            attendance_data.append(attendance_entry)
+
+    return jsonify(attendance_data), 200
+
+
+@app.route('/api/students', methods=['GET'])
+def get_students():
+    students = students_collection.find()
+    student_list = []
+    for student in students:
+        student_data = {
+            '_id': str(student['_id']),
+            'name': student.get('firstName', 'lastName')  # Use get() to provide a default value
         }
-        students_collection.insert_one(student)
-    return jsonify({"msg": "Data transferred successfully!"}), 200
+        student_list.append(student_data)
+    return jsonify(student_list), 200
 
-# Route to add attendance data
-@app.route('/add_attendance', methods=['POST'])
+@app.route('/api/attendance', methods=['POST'])
 def add_attendance():
-    student_id = request.json['student_id']
-    attendance_record = {
-        'date': request.json['date'],
-        'type': request.json['type'],
-        'status': request.json['status']  # 'Present' or 'Absent'
-    }
-    students_collection.update_one(
-        {'student_id': ObjectId(student_id)},
-        {'$push': {'attendance': attendance_record}}
-    )
-    return jsonify({'msg': 'Attendance added successfully!'}), 200
+    data = request.get_json()
+    if not data or 'date' not in data or 'type' not in data or 'students' not in data:
+        return jsonify({"msg": "Incomplete attendance data"}), 400
 
-# Route to get student data
-@app.route('/students/<student_id>', methods=['GET'])
-def get_student(student_id):
-    student = students_collection.find_one({'student_id': ObjectId(student_id)})
-    if student:
-        return jsonify(student), 200
-    else:
-        return jsonify({'error': 'Student not found!'}), 404
+    for student in data['students']:
+        student_id = student.get('id')
+        present = student.get('present', False)
+        if student_id:
+            students_collection.update_one(
+                {'_id': ObjectId(student_id)},
+                {
+                    '$push': {
+                        'attendance': {
+                            'date': data['date'],
+                            'type': data['type'],
+                            'status': 'Present' if present else 'Absent'
+                        }
+                    }
+                }
+            )
+        else:
+            # Log or handle the case where student ID is missing
+            continue
+
+    return jsonify({'msg': 'Attendance recorded successfully'}), 201
+
 
 # Test MongoDB connection
 @app.route('/test_mongo', methods=['GET'])

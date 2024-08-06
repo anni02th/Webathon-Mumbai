@@ -9,15 +9,13 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('Admin');
   const navigate = useNavigate(); 
-  const { setUser } = useAuth();
+  const { user, setUser } = useAuth();
 
-  // Remove the isLoggedIn state and related effect
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
+    if (user) {
       navigateToLastPage(); // If logged in, navigate to last page
     }
-  }, [navigate]);
+  }, [user, navigate]);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -32,7 +30,6 @@ const Login = () => {
         localStorage.setItem('token', response.data.token);
         setUser({ email, role, token: response.data.token }); // Ensure setUser updates the context
         alert('Logged in successfully!');
-        navigateToLastPage(); // Navigate after successful login
       } else {
         alert(response.data.message);
       }
@@ -47,7 +44,7 @@ const Login = () => {
     if (lastPage) {
       navigate(lastPage);
     } else {
-      switch (role) {
+      switch (user?.role) {
         case 'Admin':
           navigate('/admin');
           break;
