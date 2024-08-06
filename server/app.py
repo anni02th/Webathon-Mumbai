@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 import os
 from werkzeug.utils import secure_filename
 load_dotenv()
+from getdirections import get_classroom_location
 
 app = Flask(__name__)
 
@@ -209,6 +210,17 @@ def delete_academic_calendar(filename):
             return jsonify({'error': 'File not found'}), 404
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+# for get directions feature
+@app.route('/api/getdirections', methods=['GET'])
+def get_directions():
+    classroom = request.args.get('classroom')
+    if not classroom:
+        return jsonify({'error': 'Classroom parameter is required'}), 400
+    
+    location = get_classroom_location(classroom)
+    return jsonify({'location': location})
 
 
 if __name__ == '__main__':
