@@ -36,7 +36,7 @@ app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = 'dagamore1323@gmail.com'
-app.config['MAIL_PASSWORD'] = 'PASS_KEY'
+app.config['MAIL_PASSWORD'] = 'PASS_KEY'  # Use the generated app password
 app.config['MAIL_DEFAULT_SENDER'] = 'dagamore1323@gmail.com'
 
 mail = Mail(app)
@@ -44,7 +44,7 @@ mail = Mail(app)
 @app.route('/send-mail', methods=['POST'])
 def send_mail():
     data = request.get_json()
-    msg = Message('Contact Form Message', recipients=['dagamore1312@gmail.com'])
+    msg = Message('Contact Form Message', recipients=['dagamore1323@gmail.com'])
     msg.body = f"""
     First Name: {data['firstName']}
     Last Name: {data['lastName']}
@@ -54,6 +54,7 @@ def send_mail():
     """
     mail.send(msg)
     return jsonify({"message": "Mail sent successfully!"}), 200
+
 
 @app.route('/signup', methods=['POST'])
 def signup():
