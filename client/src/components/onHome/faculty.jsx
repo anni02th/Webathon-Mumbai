@@ -29,9 +29,9 @@ const Faculty = () => {
         <div>
             <Header />
             <div className='w-[100%] mb-8'>
-                <div className='w-[100%] h-20 bg-Dblue text-white flex flex-col justify-center items-center'>
-                    <i className='text-xl'>Department of</i>
-                    <h1 className='text-3xl font-semibold'>Computer Engineering</h1>
+                <div className='w-[100%] h-20 bg-Dblue flex flex-col justify-center items-center'>
+                    <i className='text-xl text-white'>Department of</i>
+                    <h1 className='text-3xl font-semibold text-white'>Computer Engineering</h1>
                 </div>
                 <div className='w-[100%] flex gap-16 mt-8 flex-wrap justify-center '>
                     {facultyData.map((faculty, index) => card(faculty.imgsrc, faculty.name, faculty.position, faculty.education))}

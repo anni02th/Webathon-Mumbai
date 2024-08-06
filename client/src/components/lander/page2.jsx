@@ -5,9 +5,9 @@ const Page2 = () => {
     <div className="relative w-[80%] m-auto my-28 flex flex-col items-center justify-center">
 
       <div className='flex gap-4 justify-between items-center mb-8'>
-        <h3 className='text-Dblue text-4xl font-bold'>Univerz's Commitment to Academic Excellence</h3>
-        <p className='text-lg font-medium'>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellendus inventore distinctio error ipsa obcaecati temporibus?
+        <h3 className='text-Dblue text-4xl font-bold w-[90%]'>Commitment to Academic Excellence</h3>
+        <p className='text-lg font-medium text-end'>
+        K.K.Wagh nurtures future leaders through innovative technology and hands-on experience. Join us to excel in your engineering journey and shape tomorrow’s world."
         </p>
       </div>
       <div className='flex gap-6'>
@@ -18,7 +18,7 @@ const Page2 = () => {
           <div className="flex flex-col justify-between w-full md:w-[50%]">
             <img src="Rectangle 13.png" width={'400px'} alt="Rectangle 13" className="self-center md:self-start" />
             <p className="mt-4 md:mt-0">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, blanditiis quis debitis eos sed sapiente hic!
+            Dedicated to academic excellence, K.K. Wagh fosters innovation through cutting-edge technology and hands-on learning. Prepare to excel and lead in the world of engineering."
             </p>
             <button className="bg-Dblue text-white py-1 px-6 rounded-full hover:bg-Dbblue transition duration-200 w-[180px] mt-4 md:mt-0 self-center md:self-start">
               Read More

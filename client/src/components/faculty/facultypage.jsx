@@ -14,7 +14,8 @@ const Facultypage = () => {
   };
 
   const renderCards = () => (
-    <div className='container flex p-4 gap-8 h-[100vh] justify-center'>
+    <div className='h-[100vh] w-fit '>
+    <div className='container flex p-4 gap-8 h-fit w-[100%] justify-center flex-wrap'>
       <div onClick={() => handleCardClick('Upload Study Material')} className='w-fit h-fit hover:cursor-pointer'>
         <Card heading='Upload Study Material' srcimg='/faculty1.png' />
       </div>
@@ -25,16 +26,17 @@ const Facultypage = () => {
         <Card heading='View Time Table' srcimg='/faculty3.png' />
       </div>
     </div>
+    </div>
   );
 
   const renderSelectedContent = () => (
     <div className='container flex flex-col p-4 gap-8'>
       <div className='flex gap-4'>
         <button
-          className='px-3 bg-Dbblue text-white rounded'
+          className='px-3 bg-Dbblue  rounded'
           onClick={() => setSelectedCard(null)}
         >
-          <i class="fa-solid fa-chevron-left"></i>
+          <i class="fa-solid fa-chevron-left text-white"></i>
         </button>
         <h2 className='text-2xl font-bold'>{selectedCard}</h2>
       </div>
