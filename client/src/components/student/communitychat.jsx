@@ -32,8 +32,8 @@ export default function CommunityChat() {
   };
 
   return (
-    <div className="h-[100vh] p-4">
-      <h1 className="text-2xl mb-4">Community Chat</h1>
+    <div className="h-[70vh] w-full p-4 relative">
+      <div className='h-fit w-full absolute bottom-4 '>
       <div className="mb-4">
         {messages.map((msg, index) => (
           <div key={index} className="mb-2 p-2 bg-gray-100 rounded">
@@ -55,6 +55,7 @@ export default function CommunityChat() {
         >
           Send
         </button>
+      </div>
       </div>
     </div>
   );

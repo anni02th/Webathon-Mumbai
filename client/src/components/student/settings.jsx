@@ -2,7 +2,7 @@ import React from 'react'
 
 const settings = () => {
   return (
-    <div>settings</div>
+    <div className='h-[100vh]'>settings</div>
   )
 }
 
