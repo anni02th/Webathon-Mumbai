@@ -17,7 +17,7 @@ const Sidebar = ({ onSectionClick }) => {
     };
 
     return (
-        <div className="flex flex-col bg-[#F4F4F4] gap-2 text-lg w-[20%]">
+        <div className="flex flex-col bg-[#F4F4F4] gap-2 text-lg w-60 max-sm:hidden">
             <button
                 onClick={toggleDatabaseDropdown}
                 className={`flex gap-2 text-black items-center font-medium hover:bg-white p-2 
