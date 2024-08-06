@@ -31,14 +31,14 @@ const Page3 = () => {
         </div>
         <div className='h-40 w-80 bg-Dblue p-4 m-6 rounded-[25px] flex items-center justify-around 
         relative hover:scale-105 transform transition duration-300'>
-          <img src="page3-2.png" alt="" className='p-4 w-[100px] h-[100px]' />
+          <img src="page3-2.png" alt="" className='p-3 w-[100px] h-[100px]' />
           <div className='p-4 flex flex-col text-start'>
             <h1 className='text-3xl text-white font-semibold mb-1'>Electrical Engineering</h1>
           </div>
         </div>
         <div className='h-40 w-80 bg-Dblue p-4 m-6 rounded-[25px] flex items-center justify-around 
         relative hover:scale-105 transform transition duration-300'>
-          <img src="page3-3.png" alt="" className='p-4 w-[100px] h-[80px]' />
+          <img src="page3-3.png" alt="" className='p-2 w-[100px] h-[80px]' />
           <div className='p-4 flex flex-col text-start'>
             <h1 className='text-3xl text-white font-semibold mb-1'>Chemical Engineering</h1>
           </div>
@@ -52,7 +52,7 @@ const Page3 = () => {
         </div>
         <div className='h-40 w-80 bg-Dblue p-4 m-6 rounded-[25px] flex items-center justify-around 
         relative hover:scale-105 transform transition duration-300'>
-          <img src="page3-5.png" alt="" className='p-4 w-[100px] h-[90px]' />
+          <img src="page3-5.png" alt="" className='p-3 w-[100px] h-[90px]' />
           <div className='p-4 flex flex-col text-start'>
             <h1 className='text-3xl text-white font-semibold mb-1'>Mechanical Engineering</h1>
           </div>
@@ -68,21 +68,21 @@ const Page3 = () => {
           <>
             <div className='h-40 w-80 bg-Dblue p-4 m-6 rounded-[25px] flex items-center justify-around 
             relative hover:scale-105 transform transition duration-300'>
-              <img src="page3-7.png" alt="" className='p-4 w-[100px] h-[90px]' />
+              <img src="page3-9.png" alt="" className='p-4 w-[100px] h-[90px]' />
               <div className='p-4 flex flex-col text-start'>
                 <h1 className='text-3xl text-white font-semibold mb-1'>Computer Science and Design</h1>
               </div>
             </div>
-            <div className='h-40 w-80 bg-Dblue p-4 m-6 rounded-[25px] flex items-center justify-around 
+            <div className='h-40 w-80 bg-Dblue p-4 m-6 rounded-[25px] flex items-center  
             relative hover:scale-105 transform transition duration-300'>
-              <img src="page3-8.png" alt="" className='p-4 w-[100px] h-[90px]' />
+              <img src="page3-8.png" alt="" className='p-3 w-[100px] h-[90px]' />
               <div className='p-4 flex flex-col text-start'>
-                <h1 className='text-3xl text-white font-semibold mb-1'>IT</h1>
+                <h1 className='text-3xl text-white font-semibold mb-1'>Information Technology</h1>
               </div>
             </div>
             <div className='h-40 w-80 bg-Dblue p-4 m-6 rounded-[25px] flex items-center justify-around 
             relative hover:scale-105 transform transition duration-300'>
-              <img src="page3-9.png" alt="" className='p-4 w-[100px] h-[90px]' />
+              <img src="page3-7.png" alt="" className='p-4 w-[100px] h-[90px]' />
               <div className='p-4 flex flex-col text-start'>
                 <h1 className='text-3xl text-white font-semibold mb-1'>Robotics and Automation</h1>
               </div>
