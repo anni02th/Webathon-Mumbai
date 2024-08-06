@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import HeaderL from '../HeaderL';
+import Header from '../header';
 import Footer from '../footer';
 import Sidebar from './sidebar';
 import Card from '../card';
@@ -47,7 +47,7 @@ const Facultypage = () => {
 
   return (
     <div>
-      <HeaderL />
+      <Header />
       <section className='flex'>
         <Sidebar onSectionClick={handleCardClick} />
         {selectedCard ? renderSelectedContent() : renderCards()}
