@@ -17,8 +17,8 @@ export default function GPT() {
   };
 
   return (
-    <div className="h-[100vh] p-4">
-      <h1 className="text-2xl mb-4">Ask GPT</h1>
+    <div className="h-[70vh] w-[100%] p-4 flex relative">
+      <div className='h-fit w-full absolute bottom-4'>
       <textarea
         value={input}
         onChange={e => setInput(e.target.value)}
@@ -38,6 +38,7 @@ export default function GPT() {
           <p>{response}</p>
         </div>
       )}
+      </div>
     </div>
   );
 }

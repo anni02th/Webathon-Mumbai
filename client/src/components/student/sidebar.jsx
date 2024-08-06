@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { HiOutlineHome } from "react-icons/hi";
-import { IoCalendarOutline } from "react-icons/io5";
 
 const StudentSidebar = ({ onSectionClick }) => {
   const [isDashboardDropdownOpen, setIsDashboardDropdownOpen] = useState(false);
@@ -38,11 +37,27 @@ const StudentSidebar = ({ onSectionClick }) => {
           </li>
           <li
             className={`flex gap-2 p-2 pl-8 items-center hover:bg-white 
-                        ${selectedSection === 'GPT' ? 'bg-white' : ''}`}
-            onClick={() => handleSectionClick('GPT')}
+                        ${selectedSection === 'Timetable' ? 'bg-white' : ''}`}
+            onClick={() => handleSectionClick('Timetable')}
+          >
+            <i class="fa-solid fa-calendar-days"></i>
+            Time Table
+          </li>
+          <li
+            className={`flex gap-2 p-2 pl-8 items-center hover:bg-white 
+                        ${selectedSection === 'Study Buddy' ? 'bg-white' : ''}`}
+            onClick={() => handleSectionClick('Study Buddy')}
+          >
+            <i class="fa-solid fa-graduation-cap"></i>
+            Study Buddy
+          </li>
+          <li
+            className={`flex gap-2 p-2 pl-8 items-center hover:bg-white 
+                        ${selectedSection === 'Personalized GPT' ? 'bg-white' : ''}`}
+            onClick={() => handleSectionClick('Personalized GPT')}
           >
             <i className="fa-solid fa-robot"></i>
-            GPT
+            Personalized GPT
           </li>
           <li
             className={`flex gap-2 p-2 pl-8 items-center hover:bg-white 
@@ -51,6 +66,14 @@ const StudentSidebar = ({ onSectionClick }) => {
           >
             <i className="fa-solid fa-comments"></i>
             Community Chat
+          </li>
+          <li
+            className={`flex gap-2 p-2 pl-8 items-center hover:bg-white 
+                        ${selectedSection === 'Get Directions' ? 'bg-white' : ''}`}
+            onClick={() => handleSectionClick('Get Directions')}
+          >
+            <i class="fa-solid fa-diamond-turn-right"></i>
+            Get Directions
           </li>
           <li
             className={`flex gap-2 p-2 pl-8 items-center hover:bg-white 
@@ -76,16 +99,10 @@ const StudentSidebar = ({ onSectionClick }) => {
             <i className="fa-solid fa-cog"></i>
             Settings
           </li>
+          
         </ul>
       )}
-      <button
-        onClick={() => handleSectionClick('Timetable')}
-        className={`flex gap-2 text-black items-center font-medium hover:bg-white p-2 
-                    ${selectedSection === 'Timetable' ? 'bg-white' : ''}`}
-      >
-        <IoCalendarOutline />
-        Timetable
-      </button>
+      
     </div>
   );
 };
