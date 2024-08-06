@@ -1,5 +1,6 @@
 // components/pages/studentpage.jsx
 import React, { useEffect, useState } from 'react';
+import CollegeCompanion from './collegecomp';
 
 const StudentPage = () => {
   const [message, setMessage] = useState('');
@@ -17,7 +18,8 @@ const StudentPage = () => {
   }, []); // Empty dependency array means this effect runs once on mount
 
   return (
-    <div className='bg-green-700'>
+    <div className=''>
+      <CollegeCompanion/>
       <h1>Student Page</h1>
       <p className='text-black'>{message}</p>
     </div>
