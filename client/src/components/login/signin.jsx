@@ -178,7 +178,7 @@ const Signup = () => {
             <div className="flex items-center">
               <input
                 type="checkbox"
-                className="form-checkbox rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500"
+                className="form-checkbox rounded border-gray-300 text-Dblue shadow-sm focus:ring-Dbblue"
               />
               <label className="ml-2 text-gray-700 text-sm font-bold">
                 I agree to all the <a href="#">Terms and Privacy policy</a>

@@ -7,6 +7,7 @@ from bson.objectid import ObjectId
 from dotenv import load_dotenv
 import os
 from werkzeug.utils import secure_filename
+from flask_mail import Mail, Message
 load_dotenv()
 from getdirections import get_classroom_location
 
@@ -29,6 +30,30 @@ faculty_collection = mongo.db.faculty
 
 UPLOAD_FOLDER = 'download/academic_calendar'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# Mail configuration
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'dagamore1323@gmail.com'
+app.config['MAIL_PASSWORD'] = 'PASS_KEY'
+app.config['MAIL_DEFAULT_SENDER'] = 'dagamore1323@gmail.com'
+
+mail = Mail(app)
+
+@app.route('/send-mail', methods=['POST'])
+def send_mail():
+    data = request.get_json()
+    msg = Message('Contact Form Message', recipients=['dagamore1312@gmail.com'])
+    msg.body = f"""
+    First Name: {data['firstName']}
+    Last Name: {data['lastName']}
+    Email: {data['email']}
+    Phone No: {data['phoneNo']}
+    Message: {data['yourMess']}
+    """
+    mail.send(msg)
+    return jsonify({"message": "Mail sent successfully!"}), 200
 
 @app.route('/signup', methods=['POST'])
 def signup():

@@ -7,6 +7,7 @@ import FacultyPage from './components/faculty/facultypage.jsx';
 import Faculty from './components/onHome/faculty.jsx';
 import Department from './components/onHome/department.jsx';
 import Resources from './components/onHome/resources.jsx';
+import Contact from './components/contact.jsx';
 import Signup from './components/login/signin.jsx';
 import Login from './components/login/login.jsx';
 
@@ -48,6 +49,7 @@ function App() {
           <Route path="/faculty" element={<Faculty />} />
           <Route path="/departments" element={<Department />} />
           <Route path="/resource" element={<Resources />} />
+          <Route path="/contact" element={<Contact />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
