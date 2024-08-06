@@ -280,15 +280,11 @@ def personalized_gpt():
             pdf_file.save(pdf_path)
 
         context = extract_text_from_pdf(pdf_path)
-        prompt = f"Your name is PersonalizedGPT and you are a helpful and knowledgeable assistant for college students. You assist with their studies and provide consise explanations based on the provided PDF notes.\n\n{
-            context}\n\nBased on the above notes, answer the following query:\n{query}"
+        prompt = "Your name is PersonalizedGPT and you are a helpful and knowledgeable assistant for college students. You assist with their studies and provide consise explanations based on the provided PDF notes.\n\n {context}\n\nBased on the above notes, answer the following query:\n{query}"
     else:
-        prompt = f"You name is PersonalizedGPT and you are a helpful and knowledgeable assistant for college students. You assist with their studies and provide consise explanations and answers.\n\nAnswer the following query:\n{
-            query}"
+        prompt = "You name is PersonalizedGPT and you are a helpful and knowledgeable assistant for college students. You assist with their studies and provide consise explanations and answers.\n\nAnswer the following query:\n{query}"
 
-    response = requests.post(
-        f"https://api.cloudflare.com/client/v4/accounts/{
-            ACCOUNT_ID}/ai/run/@cf/meta/llama-3-8b-instruct",
+    response = requests.post("https://api.cloudflare.com/client/v4/accounts/{ACCOUNT_ID}/ai/run/@cf/meta/llama-3-8b-instruct",
         headers={"Authorization": f"Bearer {AUTH_TOKEN}"},
         json={
             "messages": [
