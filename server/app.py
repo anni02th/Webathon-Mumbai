@@ -1,3 +1,5 @@
+import fitz
+from getdirections import get_classroom_location
 from flask import Flask, request, jsonify, session, send_from_directory
 from flask_pymongo import PyMongo
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -7,9 +9,12 @@ from bson.objectid import ObjectId
 from dotenv import load_dotenv
 import os
 from werkzeug.utils import secure_filename
+
+import requests
+import tempfile
 from flask_mail import Mail, Message
+
 load_dotenv()
-from getdirections import get_classroom_location
 
 app = Flask(__name__)
 
@@ -17,11 +22,14 @@ app.config["MONGO_URI"] = os.getenv("MONGO_URI")
 mongo = PyMongo(app)
 jwt = JWTManager(app)
 
-CORS(app, supports_credentials=True) 
+CORS(app, supports_credentials=True)
 
 app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
 
 app.secret_key = os.getenv("SECRET_KEY")
+
+ACCOUNT_ID = os.getenv("ACCOUNT_ID")
+AUTH_TOKEN = os.getenv("API_TOKEN")
 
 users_collection = mongo.db.logins
 students_collection = mongo.db.students
@@ -73,7 +81,7 @@ def signup():
         return jsonify({"msg": "User already exists"}), 409
 
     hashed_password = generate_password_hash(password)
-    
+
     user_data = {
         "email": email,
         "password": hashed_password,
@@ -84,7 +92,7 @@ def signup():
     }
 
     users_collection.insert_one(user_data)
-    
+
     return jsonify({"msg": "User created successfully"}), 201
 
 
@@ -121,7 +129,6 @@ def get_user_info():
                 'role': user.get('role')
             })
     return jsonify({'error': 'User not logged in'}), 401
-
 
 
 @app.route('/logout', methods=['POST'])
@@ -169,7 +176,7 @@ def delete_department():
             return jsonify({'error': 'Department not found'}), 404
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-    
+
 
 # for admin to add, delete or see faculty
 @app.route('/api/admin/faculty', methods=['GET', 'POST', 'DELETE'])
@@ -244,9 +251,56 @@ def get_directions():
     classroom = request.args.get('classroom')
     if not classroom:
         return jsonify({'error': 'Classroom parameter is required'}), 400
-    
+
     location = get_classroom_location(classroom)
     return jsonify({'location': location})
+
+
+# for personalized gpt
+def extract_text_from_pdf(pdf_path):
+    doc = fitz.open(pdf_path)
+    text = ""
+    for page_num in range(doc.page_count):
+        page = doc.load_page(page_num)
+        text += page.get_text()
+    return text
+
+
+@app.route('/api/personalizedgpt', methods=['POST'])
+def personalized_gpt():
+    query = request.form.get('query')
+    if not query:
+        return jsonify({"error": "Query is required", "your_query": query}), 400
+
+    pdf_file = request.files.get('file')
+    if pdf_file:
+        
+        with tempfile.NamedTemporaryFile(delete=False) as tmp:
+            pdf_path = tmp.name
+            pdf_file.save(pdf_path)
+
+        context = extract_text_from_pdf(pdf_path)
+        prompt = f"Your name is PersonalizedGPT and you are a helpful and knowledgeable assistant for college students. You assist with their studies and provide consise explanations based on the provided PDF notes.\n\n{
+            context}\n\nBased on the above notes, answer the following query:\n{query}"
+    else:
+        prompt = f"You name is PersonalizedGPT and you are a helpful and knowledgeable assistant for college students. You assist with their studies and provide consise explanations and answers.\n\nAnswer the following query:\n{
+            query}"
+
+    response = requests.post(
+        f"https://api.cloudflare.com/client/v4/accounts/{
+            ACCOUNT_ID}/ai/run/@cf/meta/llama-3-8b-instruct",
+        headers={"Authorization": f"Bearer {AUTH_TOKEN}"},
+        json={
+            "messages": [
+                {"role": "system", "content": "You are a friendly assistant"},
+                {"role": "user", "content": prompt}
+            ]
+        }
+    )
+
+    result = response.json()
+
+    return jsonify(result)
 
 
 if __name__ == '__main__':
