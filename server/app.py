@@ -4,11 +4,16 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from flask_cors import CORS
 from bson.objectid import ObjectId
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = Flask(__name__)
 
 # MongoDB connection string
-app.config["MONGO_URI"] = "mongodb://localhost:27017/webathon"
+app.config["MONGO_URI"] = os.getenv("MONGO_URI")
 mongo = PyMongo(app)
 jwt = JWTManager(app)
 
@@ -16,10 +21,10 @@ jwt = JWTManager(app)
 CORS(app, supports_credentials=True)  # Allow credentials (cookies) to be sent
 
 # JWT Secret Key
-app.config["JWT_SECRET_KEY"] = "jyotidagamore"
+app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
 
 # Secret key for session management
-app.secret_key = 'kinggolu43'  # Replace with your secret key
+app.secret_key = os.getenv("SECRET_KEY")
 
 # MongoDB collections
 users_collection = mongo.db.logins
