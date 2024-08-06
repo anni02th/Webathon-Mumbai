@@ -3,9 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Signup = () => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  // Assuming you'll use this for birthdate, if not, adjust accordingly
+  const [birthDate, setBirthDate] = useState('');
   const [role, setRole] = useState('Admin');
   const navigate = useNavigate();
 
@@ -17,17 +21,22 @@ const Signup = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/signup', {
+      const userData = {
+        firstName,  // Add first name
+        lastName,   // Add last name
         email,
         password,
+        birthDate,  // Add birth date
         role,
-      });
+      };
+
+      const response = await axios.post('http://localhost:5000/signup', userData);
 
       if (response.status === 201) {
         alert('Sign-up successful! Please log in.');
         navigate('/login');
       } else {
-        alert(response.data.message);
+        alert(response.data.msg || 'Sign-up failed. Please try again.');
       }
     } catch (error) {
       console.error('Sign-up error:', error);
@@ -56,7 +65,8 @@ const Signup = () => {
                 </label>
                 <input
                   type="text"
-                  id="firstName"
+                  id="firstName" value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   placeholder="First Name"
                 />
@@ -70,7 +80,8 @@ const Signup = () => {
                 </label>
                 <input
                   type="text"
-                  id="lastName"
+                  id="lastName" value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   placeholder="Last Name"
                 />
@@ -102,7 +113,8 @@ const Signup = () => {
                 </label>
                 <input
                   type="date"
-                  id="date"
+                  id="date" value={birthDate}
+                  onChange={(e) => setBirthDate(e.target.value)}
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
               </div>
