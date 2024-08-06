@@ -1,3 +1,5 @@
 /.venv
 /node_modules
 .env
+__pycache__
+test_post_api.py
