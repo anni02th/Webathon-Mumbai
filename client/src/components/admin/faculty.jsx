@@ -15,8 +15,8 @@ export default function Faculty() {
         <div>
             <div className='w-[100%] mb-8'>
                 <div className='w-[100%] h-20 bg-Dblue text-white flex flex-col justify-center items-center'>
-                    <i className='text-xl'>Department of</i>
-                    <h1 className='text-3xl font-semibold'>Computer Engineering</h1>
+                    <i className='text-xl text-white'>Department of</i>
+                    <h1 className='text-3xl font-semibold text-white'>Computer Engineering</h1>
                 </div>
                 <div className='w-[100%] flex gap-16 mt-8 flex-wrap justify-center '>
                     {card('/teacher1.png', 'R. M. Bora', 'Assistant Professor', 'B.E. (Computer) M.E. (Computer)')}
@@ -30,8 +30,8 @@ export default function Faculty() {
             </div>
             <div className='w-[100%] mb-8'>
                 <div className='w-[100%] h-20 bg-Dblue text-white flex flex-col justify-center items-center'>
-                    <i className='text-xl'>Department of</i>
-                    <h1 className='text-3xl font-semibold'>Computer Engineering</h1>
+                    <i className='text-xl text-white'>Department of</i>
+                    <h1 className='text-3xl font-semibold text-white'>Computer Engineering</h1>
                 </div>
                 <div className='w-[100%] flex gap-16 mt-8 flex-wrap justify-center '>
                     {card('/teacher7.png', 'Dr. S. S. Sane', 'Professor, HOD', 'PhD (Computer Engineering COEP)')}
@@ -43,8 +43,8 @@ export default function Faculty() {
             </div>
             <div className='w-[100%] mb-8'>
                 <div className='w-[100%] h-20 bg-Dblue text-white flex flex-col justify-center items-center'>
-                    <i className='text-xl'>Department of</i>
-                    <h1 className='text-3xl font-semibold'>Computer Engineering</h1>
+                    <i className='text-xl text-white'>Department of</i>
+                    <h1 className='text-3xl font-semibold text-white'>Computer Engineering</h1>
                 </div>
                 <div className='w-[100%] flex gap-16 mt-8 flex-wrap justify-center '>
                     {card('/teacher7.png', 'Dr. S. S. Sane', 'Professor, HOD', 'PhD (Computer Engineering COEP)')}

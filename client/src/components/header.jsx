@@ -38,7 +38,7 @@ const Header = () => {
       </div>
       <div className='text-black flex gap-1 p-3'>
         {user ? (
-          <button onClick={handleLogout} className='flex justify-center items-center gap-2 text-black text-lg hover:bg-Dblue 
+          <button onClick={handleLogout} className='flex justify-center items-center gap-2 text-Dblue text-lg hover:border-Dblue border-2 border-transparent 
           hover:text-white px-4 py-[2px] transition duration-200 rounded-sm'>
             {user.name} 
             <div className='flex '><PiUserCircleFill className='size-8' /> Logout </div>

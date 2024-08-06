@@ -11,8 +11,8 @@ const Department = () => {
 
         <div className='w-[100%] h-fit relative border-2 rounded-lg border-b-4 border-b-Dblue flex flex-col'>
           <div className='w-[100%] h-fit bg-Dblue overflow-hidden text-white p-2 rounded-t-lg '>
-            <h1 className='text-xl'>Department of</h1>
-            <h1 className='sm:text-3xl text-2xl font-semibold'>Computer Engineering</h1>
+            <h1 className='text-xl text-white'>Department of</h1>
+            <h1 className='sm:text-3xl text-2xl font-semibold text-white'>Computer Engineering</h1>
           </div>
           <img src="/department1.png" alt="" className='w-auto sm:h-64 h-[100%] m-2 object-contain sm:absolute sm:right-8 sm:top-1/2 sm:transform sm:-translate-y-1/2 sm:rounded-full' />
           <div className='sm:w-[65%] w-[100%] h-fit text-gray-700 p-4 mb-8 gap-2 flex flex-col font-medium '>
@@ -25,8 +25,8 @@ const Department = () => {
 
         <div className='w-[100%] h-fit relative border-2 rounded-lg border-b-4 border-b-Dblue flex flex-col'>
           <div className='w-[100%] h-fit bg-Dblue overflow-hidden text-white p-2 rounded-t-lg '>
-            <h1 className='text-xl'>Department of</h1>
-            <h1 className='sm:text-3xl text-2xl font-semibold'>Artificial Intelligence & Data science</h1>
+            <h1 className='text-xl text-white'>Department of</h1>
+            <h1 className='sm:text-3xl text-2xl font-semibold text-white'>Artificial Intelligence & Data science</h1>
           </div>
           <img src="/department2.png" alt="" className='w-auto sm:h-64 h-[100%] m-2 object-contain sm:absolute sm:right-8 sm:top-1/2 sm:transform sm:-translate-y-1/2 sm:rounded-full' />
           <div className='sm:w-[65%] w-[100%] h-fit text-gray-700 p-4 mb-12 gap-2 flex flex-col font-medium '>
@@ -39,8 +39,8 @@ const Department = () => {
         
         <div className='w-[100%] h-fit relative border-2 rounded-lg border-b-4 border-b-Dblue flex flex-col'>
           <div className='w-[100%] h-fit bg-Dblue overflow-hidden text-white p-2 rounded-t-lg '>
-            <h1 className='text-xl'>Department of</h1>
-            <h1 className='sm:text-3xl text-2xl font-semibold'>Computer Science and Design</h1>
+            <h1 className='text-xl text-white'>Department of</h1>
+            <h1 className='sm:text-3xl text-2xl font-semibold text-white'>Computer Science and Design</h1>
           </div>
           <img src="/department3.png" alt="" className='w-auto sm:h-64 h-[100%] m-2 object-contain sm:absolute sm:right-8 sm:top-1/2 sm:transform sm:-translate-y-1/2 sm:rounded-full' />
           <div className='sm:w-[65%] w-[100%] h-fit text-gray-700 p-4 mb-8 gap-2 flex flex-col font-medium'>
