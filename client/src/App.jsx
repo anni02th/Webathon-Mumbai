@@ -50,11 +50,18 @@ function App() {
               </ProtectedRoute>
             } 
           />
+          <Route 
+            path="/alumni" 
+            element={
+              <ProtectedRoute allowedRoles={['Alumni']}>
+                <AlumniForum />
+              </ProtectedRoute>
+            } 
+          />
           <Route path="/faculty" element={<Faculty />} />
           <Route path="/departments" element={<Department />} />
           <Route path="/resource" element={<Resources />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/alumin" element={<AlumniForum />} />
           <Route path="/studybuddy" element={<StudyBuddy />} />
           <Route path="/GPT" element={<GPT />} />
           <Route path="/blogs" element={<Blog />} />
