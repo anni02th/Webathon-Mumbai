@@ -54,6 +54,9 @@ const Login = () => {
         case 'Faculty':
           navigate('/facultypage');
           break;
+        case 'Alumni':
+          navigate('/alumni');
+          break;
         default:
           navigate('/');
       }
