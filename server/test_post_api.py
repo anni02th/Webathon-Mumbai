@@ -1,14 +1,7 @@
+# testing the api/forum 
+
 import requests
 
-url = 'http://localhost:5000/api/personalizedgpt'
-files = {'file': open('test_pdf/about-kkw-pdf.pdf', 'rb')}
-data = {
-    'query': 'what accreditions does the college have?'
-}
-
-response = requests.post(url, files=files, data=data)
-try:
-    json_response = response.json()
-    print(json_response)
-except requests.exceptions.JSONDecodeError:
-    print("Failed to decode JSON response")
+url = 'http://127.0.0.1:5000/api/forum/post/66b31eaade0dcec76a96519e/like'
+response = requests.post(url)
+print(response.json())
