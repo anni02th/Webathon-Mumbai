@@ -22,7 +22,7 @@ const Page6 = () => {
                 Insight
               </button>
               <h2 className='text-black font-medium'>12 Aug 2023</h2>
-              <h3 className="text-Dblue text-lg lg:text-xl font-bold">Many Univerz university graduates immediately work</h3>
+              <h3 className="text-Dblue text-lg lg:text-xl font-bold">Many university graduates immediately work</h3>
               <p className="text-gray-700 mt-2">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
               </p>
