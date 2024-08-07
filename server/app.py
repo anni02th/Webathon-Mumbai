@@ -15,6 +15,7 @@ from flask_mail import Mail, Message
 import gridfs
 from datetime import datetime, timezone
 load_dotenv()
+import logging
 
 app = Flask(__name__)
 
@@ -300,8 +301,9 @@ def get_directions():
     location = get_classroom_location(classroom)
     return jsonify({'location': location})
 
+logging.basicConfig(level=logging.DEBUG)
 
-# for personalized gpt - extract text from pdf
+# Function to extract text from PDF
 def extract_text_from_pdf(pdf_path):
     doc = fitz.open(pdf_path)
     text = ""
@@ -310,40 +312,57 @@ def extract_text_from_pdf(pdf_path):
         text += page.get_text()
     return text
 
-
-# for personalized gpt
+# Endpoint for personalized GPT
 @app.route('/api/personalizedgpt', methods=['POST'])
 def personalized_gpt():
     query = request.form.get('query')
     if not query:
-        return jsonify({"error": "Query is required", "your_query": query}), 400
+        return jsonify({"error": "Query is required"}), 400
 
     pdf_file = request.files.get('file')
     if pdf_file:
-        
         with tempfile.NamedTemporaryFile(delete=False) as tmp:
             pdf_path = tmp.name
             pdf_file.save(pdf_path)
 
         context = extract_text_from_pdf(pdf_path)
-        prompt = "Your name is PersonalizedGPT and you are a helpful and knowledgeable assistant for college students. You assist with their studies and provide consise explanations based on the provided PDF notes.\n\n {context}\n\nBased on the above notes, answer the following query:\n{query}"
+        prompt = f"Your name is PersonalizedGPT and you are a helpful and knowledgeable assistant for college students. You assist with their studies and provide concise explanations based on the provided PDF notes.\n\n{context}\n\nBased on the above notes, answer the following query:\n{query}"
     else:
-        prompt = "You name is PersonalizedGPT and you are a helpful and knowledgeable assistant for college students. You assist with their studies and provide consise explanations and answers.\n\nAnswer the following query:\n{query}"
+        prompt = f"Your name is PersonalizedGPT and you are a helpful and knowledgeable assistant for college students. You assist with their studies and provide concise explanations and answers.\n\nAnswer the following query:\n{query}"
 
-    response = requests.post("https://api.cloudflare.com/client/v4/accounts/{ACCOUNT_ID}/ai/run/@cf/meta/llama-3-8b-instruct",
-        headers={"Authorization": f"Bearer {AUTH_TOKEN}"},
-        json={
-            "messages": [
-                {"role": "system", "content": "You are a friendly assistant"},
-                {"role": "user", "content": prompt}
-            ]
-        }
-    )
+    try:
+        response = requests.post(
+            "https://api.cloudflare.com/client/v4/accounts/{ACCOUNT_ID}/ai/run/@cf/meta/llama-3-8b-instruct",
+            headers={"Authorization": f"Bearer {AUTH_TOKEN}"},
+            json={
+                "messages": [
+                    {"role": "system", "content": "You are a friendly assistant"},
+                    {"role": "user", "content": prompt}
+                ]
+            }
+        )
 
-    result = response.json()
+        if response.status_code == 200:
+            result = response.json()
+            return jsonify(result)
+        else:
+            logging.error(f"API call failed with status code {response.status_code}: {response.text}")
+            return jsonify({"error": "Failed to get response from the AI service."}), 500
 
-    return jsonify(result)
+    except Exception as e:
+        logging.error(f"An error occurred: {e}")
+        return jsonify({"error": "An internal error occurred."}), 500
 
+# Endpoint to get task status (mock implementation)
+@app.route('/api/personalizedgpt/status/<task_id>', methods=['GET'])
+def get_status(task_id):
+    # Mock implementation, replace with actual task status check logic
+    return jsonify({"status": "completed", "response": "This is a mock response."})
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+    
 @app.route('/api/upload_note', methods=['POST'])
 def upload_note():
     file = request.files.get('file')
