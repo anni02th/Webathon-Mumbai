@@ -87,13 +87,6 @@ const Page3 = () => {
                 <h1 className='text-3xl text-white font-semibold mb-1'>Robotics and Automation</h1>
               </div>
             </div>
-            <div className='h-40 w-80 bg-Dblue p-4 m-6 rounded-[25px] flex items-center justify-around 
-            relative hover:scale-105 transform transition duration-300'>
-              <img src="page3-10.png" alt="" className='p-4 w-[100px] h-[90px]' />
-              <div className='p-4 flex flex-col text-start'>
-                <h1 className='text-3xl text-white font-semibold mb-1'>AI & Data Science</h1>
-              </div>
-            </div>
           </>
         )}
       </div>

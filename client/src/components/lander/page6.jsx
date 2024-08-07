@@ -46,23 +46,6 @@ const Page6 = () => {
 
       <div className="container mx-auto p-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
-<<<<<<< HEAD
-          <div className="bg-white rounded-3xl hover:shadow-xl transition duration-300 hover:scale-95">
-            <img
-              src="Rectangle 22.png"
-              alt="Graduation"
-              className="rounded-lg mb-4 w-full h-48 object-cover"
-            />
-            <div className='p-6'>
-              <button className="bg-Dblue text-white py-1 px-6 rounded-full mb-4 hover:bg-Dbblue transition duration-200 w-full md:w-auto">
-                Insight
-              </button>
-              <h2 className='text-black font-medium'>12 Aug 2023</h2>
-              <h3 className="text-Dblue text-lg lg:text-xl font-bold">Many university graduates immediately work</h3>
-              <p className="text-gray-700 mt-2">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              </p>
-=======
           {articles.map((article, index) => (
             <div
               key={index}
@@ -84,7 +67,6 @@ const Page6 = () => {
                   {article.summary}
                 </p>
               </div>
->>>>>>> 93df462bd321050a744bdd6629e3291a5ebfe37b
             </div>
           ))}
         </div>

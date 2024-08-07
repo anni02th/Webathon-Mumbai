@@ -42,53 +42,53 @@ db = mongo.db
 
 UPLOAD_FOLDER = 'download_ac/academic_calendar'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-# Flask-Mail configuration
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'dagamore1312@gmail.com'  # Replace with your email address
-app.config['MAIL_PASSWORD'] = 'your-email-password'  # Replace with your email password
-app.config['MAIL_DEFAULT_SENDER'] = 'dagamore1312@gmail.com'  # Default sender if not specified in Message
+# # Flask-Mail configuration
+# app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+# app.config['MAIL_PORT'] = 587
+# app.config['MAIL_USE_TLS'] = True
+# app.config['MAIL_USERNAME'] = 'dagamore1312@gmail.com'  # Replace with your email address
+# app.config['MAIL_PASSWORD'] = 'your-email-password'  # Replace with your email password
+# app.config['MAIL_DEFAULT_SENDER'] = 'dagamore1312@gmail.com'  # Default sender if not specified in Message
 
-mail = Mail(app)
+# mail = Mail(app)
 
-# Set up logging
-logging.basicConfig(level=logging.DEBUG)
+# # Set up logging
+# logging.basicConfig(level=logging.DEBUG)
 
-@app.route('/send-mail', methods=['POST'])
-def send_mail():
-    try:
-        data = request.get_json()
-        firstName = data.get('firstName')
-        lastName = data.get('lastName')
-        email = data.get('email')
-        phoneNo = data.get('phoneNo')
-        yourMess = data.get('yourMess')
+# @app.route('/send-mail', methods=['POST'])
+# def send_mail():
+#     try:
+#         data = request.get_json()
+#         firstName = data.get('firstName')
+#         lastName = data.get('lastName')
+#         email = data.get('email')
+#         phoneNo = data.get('phoneNo')
+#         yourMess = data.get('yourMess')
 
-        logging.debug(f"Received data: {data}")
+#         logging.debug(f"Received data: {data}")
 
-        msg = Message(
-            subject='New Contact Form Submission',
-            sender=app.config['MAIL_DEFAULT_SENDER'],  # Use default sender
-            recipients=['kinggolu43@gmail.com']  # Replace with the recipient email address
-        )
-        msg.body = f"""
-        First Name: {firstName}
-        Last Name: {lastName}
-        Email: {email}
-        Phone No: {phoneNo}
-        Message: {yourMess}
-        """
+#         msg = Message(
+#             subject='New Contact Form Submission',
+#             sender=app.config['MAIL_DEFAULT_SENDER'],  # Use default sender
+#             recipients=['kinggolu43@gmail.com']  # Replace with the recipient email address
+#         )
+#         msg.body = f"""
+#         First Name: {firstName}
+#         Last Name: {lastName}
+#         Email: {email}
+#         Phone No: {phoneNo}
+#         Message: {yourMess}
+#         """
 
-        logging.debug(f"Sending email with message: {msg.body}")
+#         logging.debug(f"Sending email with message: {msg.body}")
 
-        mail.send(msg)
-        logging.debug("Email sent successfully")
-        return jsonify({'message': 'Mail sent successfully!'}), 200
+#         mail.send(msg)
+#         logging.debug("Email sent successfully")
+#         return jsonify({'message': 'Mail sent successfully!'}), 200
 
-    except Exception as e:
-        logging.error(f"Error sending email: {e}", exc_info=True)  # Log the specific error with traceback
-        return jsonify({'error': 'There was an error sending the mail!'}), 500
+#     except Exception as e:
+#         logging.error(f"Error sending email: {e}", exc_info=True)  # Log the specific error with traceback
+#         return jsonify({'error': 'There was an error sending the mail!'}), 500
 
 
 @app.route('/signup', methods=['POST'])
