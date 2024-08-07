@@ -42,6 +42,12 @@ db = mongo.db
 
 UPLOAD_FOLDER = 'download_ac/academic_calendar'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# Ensure the upload folder exists
+if not os.path.exists(app.config['UPLOAD_FOLDER']):
+    os.makedirs(app.config['UPLOAD_FOLDER'])
+
+
 # # Flask-Mail configuration
 # app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 # app.config['MAIL_PORT'] = 587
@@ -201,12 +207,11 @@ def delete_department():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@app.route('/api/admin/faculty', methods=['GET', 'POST', 'DELETE'])
+@app.route('/api/admin/faculty', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def handle_faculty():
     if request.method == 'GET':
         try:
             faculty = list(faculty_collection.find({}, {'_id': 0}))
-            # Assuming the data structure includes departments and their faculty members
             return jsonify(faculty), 200
         except Exception as e:
             return jsonify({'error': str(e)}), 500
@@ -217,18 +222,25 @@ def handle_faculty():
             return jsonify({'msg': 'Faculty added successfully'}), 200
         except Exception as e:
             return jsonify({'error': str(e)}), 500
+    elif request.method == 'PUT':
+        try:
+            updated_faculty = request.json
+            faculty_collection.update_one({'id': updated_faculty['id']}, {'$set': updated_faculty})
+            return jsonify({'msg': 'Faculty updated successfully'}), 200
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
     elif request.method == 'DELETE':
         try:
-            faculty_email = request.json.get('email')
-            result = faculty_collection.delete_one({'email': faculty_email})
+            faculty_id = request.json.get('id')
+            result = faculty_collection.delete_one({'id': faculty_id})
             if result.deleted_count == 1:
                 return jsonify({'msg': 'Faculty deleted successfully'}), 200
             else:
                 return jsonify({'error': 'Faculty not found'}), 404
         except Exception as e:
             return jsonify({'error': str(e)}), 500
-
-# for admin to add calendar
+        
+# Upload Academic Calendar
 @app.route('/api/admin/acad_calendar', methods=['POST'])
 def upload_academic_calendar():
     if 'file' not in request.files:
@@ -239,21 +251,31 @@ def upload_academic_calendar():
     if file and file.filename.endswith('.pdf'):
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        return jsonify({'msg': 'File uploaded successfully'}), 201
+        return jsonify({'msg': 'File uploaded successfully', 'filename': filename}), 201
     else:
         return jsonify({'error': 'Invalid file type, only PDF allowed'}), 400
 
+# Get Academic Calendar
+@app.route('/api/admin/acad_calendar', methods=['GET'])
+def get_academic_calendar():
+    try:
+        files = os.listdir(app.config['UPLOAD_FOLDER'])
+        pdf_files = [file for file in files if file.endswith('.pdf')]
+        if not pdf_files:
+            return jsonify({'error': 'No calendar found'}), 404
+        return jsonify({'filename': pdf_files[0]}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
-# for admin to get calendar
+# Download Academic Calendar
 @app.route('/api/admin/acad_calendar/<filename>', methods=['GET'])
 def download_academic_calendar(filename):
     try:
-        return send_from_directory(app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
+        return send_from_directory(app.config['UPLOAD_FOLDER'], filename, as_attachment=False)
     except FileNotFoundError:
         return jsonify({'error': 'File not found'}), 404
 
-
-# for admin to delete calendar
+# Delete Academic Calendar
 @app.route('/api/admin/acad_calendar/<filename>', methods=['DELETE'])
 def delete_academic_calendar(filename):
     try:
@@ -265,7 +287,6 @@ def delete_academic_calendar(filename):
             return jsonify({'error': 'File not found'}), 404
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
 
 # for get directions feature
 @app.route('/api/getdirections', methods=['GET'])
