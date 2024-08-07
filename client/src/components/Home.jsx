@@ -18,7 +18,7 @@ const Home = () => {
         <Page4 />
         <Page5 />
         <Page6 />
-       <Footer/>
+       <Footer />
      </div>
    );
  }

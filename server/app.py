@@ -9,6 +9,8 @@ from bson.objectid import ObjectId
 from dotenv import load_dotenv
 import os
 from werkzeug.utils import secure_filename
+import logging
+
 
 import requests
 import tempfile
@@ -38,30 +40,53 @@ faculty_collection = mongo.db.faculty
 
 UPLOAD_FOLDER = 'download/academic_calendar'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-# Mail configuration
+# Flask-Mail configuration
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'dagamore1323@gmail.com'
-app.config['MAIL_PASSWORD'] = 'PASS_KEY'  # Use the generated app password
-app.config['MAIL_DEFAULT_SENDER'] = 'dagamore1323@gmail.com'
+app.config['MAIL_USERNAME'] = 'dagamore1312@gmail.com'  # Replace with your email address
+app.config['MAIL_PASSWORD'] = 'your-email-password'  # Replace with your email password
+app.config['MAIL_DEFAULT_SENDER'] = 'dagamore1312@gmail.com'  # Default sender if not specified in Message
 
 mail = Mail(app)
 
+# Set up logging
+logging.basicConfig(level=logging.DEBUG)
+
 @app.route('/send-mail', methods=['POST'])
 def send_mail():
-    data = request.get_json()
-    msg = Message('Contact Form Message', recipients=['dagamore1323@gmail.com'])
-    msg.body = f"""
-    First Name: {data['firstName']}
-    Last Name: {data['lastName']}
-    Email: {data['email']}
-    Phone No: {data['phoneNo']}
-    Message: {data['yourMess']}
-    """
-    mail.send(msg)
-    return jsonify({"message": "Mail sent successfully!"}), 200
+    try:
+        data = request.get_json()
+        firstName = data.get('firstName')
+        lastName = data.get('lastName')
+        email = data.get('email')
+        phoneNo = data.get('phoneNo')
+        yourMess = data.get('yourMess')
+
+        logging.debug(f"Received data: {data}")
+
+        msg = Message(
+            subject='New Contact Form Submission',
+            sender=app.config['MAIL_DEFAULT_SENDER'],  # Use default sender
+            recipients=['kinggolu43@gmail.com']  # Replace with the recipient email address
+        )
+        msg.body = f"""
+        First Name: {firstName}
+        Last Name: {lastName}
+        Email: {email}
+        Phone No: {phoneNo}
+        Message: {yourMess}
+        """
+
+        logging.debug(f"Sending email with message: {msg.body}")
+
+        mail.send(msg)
+        logging.debug("Email sent successfully")
+        return jsonify({'message': 'Mail sent successfully!'}), 200
+
+    except Exception as e:
+        logging.error(f"Error sending email: {e}", exc_info=True)  # Log the specific error with traceback
+        return jsonify({'error': 'There was an error sending the mail!'}), 500
 
 
 @app.route('/signup', methods=['POST'])
@@ -145,8 +170,6 @@ def test_mongo():
     except Exception as e:
         return jsonify({"msg": "MongoDB connection failed", "error": str(e)}), 500
 
-
-# for admin to add or see departments
 @app.route('/api/admin/departments', methods=['GET', 'POST'])
 def handle_departments():
     if request.method == 'GET':
@@ -163,8 +186,6 @@ def handle_departments():
         except Exception as e:
             return jsonify({'error': str(e)}), 500
 
-
-# for admin to delete departments
 @app.route('/api/admin/departments', methods=['DELETE'])
 def delete_department():
     try:
@@ -176,8 +197,7 @@ def delete_department():
             return jsonify({'error': 'Department not found'}), 404
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
-
+    
 # for admin to add, delete or see faculty
 @app.route('/api/admin/faculty', methods=['GET', 'POST', 'DELETE'])
 def handle_faculty():

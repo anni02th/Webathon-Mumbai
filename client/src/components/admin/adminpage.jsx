@@ -4,8 +4,8 @@ import Footer from '../footer';
 import Sidebar from './sidebar';
 import Card from '../card';
 import Department from './departments';
-import Faculty from './faculty';
 import Calendar from './academicCalendar';
+import Faculty from './faculty';
 
 const Adminpage = () => {
   const [selectedCard, setSelectedCard] = useState(null);
@@ -43,7 +43,7 @@ const Adminpage = () => {
       </div>
 
       {selectedCard === 'Departments' && <Department />}
-      {selectedCard === 'Faculty' && <Faculty />}
+      {selectedCard === 'Faculty' && < Faculty />}
       {selectedCard === 'Academic Calendar' && <Calendar />}
     </div>
   );
