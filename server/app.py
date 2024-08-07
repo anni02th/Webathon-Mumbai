@@ -1,21 +1,19 @@
 import fitz
 from getdirections import get_classroom_location
-from flask import Flask, request, jsonify, session, send_from_directory
+from flask import Flask, request, jsonify, session, send_from_directory, send_file
 from flask_pymongo import PyMongo
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from flask_cors import CORS
 from bson.objectid import ObjectId
 from dotenv import load_dotenv
-import os
+import os, io
 from werkzeug.utils import secure_filename
-import logging
-
-
 import requests
 import tempfile
 from flask_mail import Mail, Message
-
+import gridfs
+from datetime import datetime, timezone
 load_dotenv()
 
 app = Flask(__name__)
@@ -37,8 +35,12 @@ users_collection = mongo.db.logins
 students_collection = mongo.db.students
 departments_collection = mongo.db.departments
 faculty_collection = mongo.db.faculty
+forum_posts_collection = mongo.db.forum_posts
 
-UPLOAD_FOLDER = 'download/academic_calendar'
+fs = gridfs.GridFS(mongo.db)
+db = mongo.db
+
+UPLOAD_FOLDER = 'download_ac/academic_calendar'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # Flask-Mail configuration
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
@@ -276,7 +278,7 @@ def get_directions():
     return jsonify({'location': location})
 
 
-# for personalized gpt
+# for personalized gpt - extract text from pdf
 def extract_text_from_pdf(pdf_path):
     doc = fitz.open(pdf_path)
     text = ""
@@ -286,6 +288,7 @@ def extract_text_from_pdf(pdf_path):
     return text
 
 
+# for personalized gpt
 @app.route('/api/personalizedgpt', methods=['POST'])
 def personalized_gpt():
     query = request.form.get('query')
@@ -317,6 +320,145 @@ def personalized_gpt():
     result = response.json()
 
     return jsonify(result)
+
+
+# to upload the notes
+@app.route('/api/upload_note', methods=['POST'])
+def upload_note():
+    file = request.files.get('file')
+    if not file:
+        return jsonify({"error": "PDF file is required"}), 400
+
+    subject = request.form.get('subject')
+    unit = request.form.get('unit')
+    branch = request.form.get('branch')
+    uploaded_by = request.form.get('uploaded_by')
+    div = request.form.get('div')
+    year = request.form.get('year')
+
+    if not all([subject, unit, branch, uploaded_by, div, year]):
+        return jsonify({"error": "All metadata fields are required"}), 400
+
+    file_id = fs.put(file, filename=file.filename)
+
+    db.notes.insert_one({
+        "filename": file.filename,
+        "file_id": file_id,
+        "upload_date": datetime.now(timezone.utc),
+        "subject": subject,
+        "unit": unit,
+        "branch": branch,
+        "uploaded_by": uploaded_by,
+        "div": div,
+        "year": year
+    })
+
+    return jsonify({"message": "Note has been successfully uploaded", "file_id": str(file_id)})
+
+
+# to download the notes
+@app.route('/api/download_note/<file_id>', methods=['GET'])
+def download_note(file_id):
+    try:
+        note = db.notes.find_one({"file_id": ObjectId(file_id)})
+        if not note:
+            return jsonify({"error": "Note not found"}), 404
+
+        file = fs.get(ObjectId(file_id))
+        return send_file(
+            io.BytesIO(file.read()),
+            download_name=note['filename'],
+            as_attachment=True
+        )
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# to display the notes
+@app.route('/api/get_notes', methods=['GET'])
+def get_notes():
+    subject = request.args.get('subject')
+    unit = request.args.get('unit')
+    branch = request.args.get('branch')
+    uploaded_by = request.args.get('uploaded_by')
+    div = request.args.get('div')
+    year = request.args.get('year')
+
+    query = {}
+    if subject:
+        query['subject'] = subject
+    if unit:
+        query['unit'] = unit
+    if branch:
+        query['branch'] = branch
+    if uploaded_by:
+        query['uploaded_by'] = uploaded_by
+    if div:
+        query['div'] = div
+    if year:
+        query['year'] = year
+
+    notes = list(db.notes.find(query))
+    for note in notes:
+        note['_id'] = str(note['_id'])
+        note['file_id'] = str(note['file_id'])
+
+    return jsonify(notes)
+
+
+# to post on the forum
+@app.route('/api/forum/post', methods=['POST'])
+def create_forum_post():
+    data = request.get_json()
+    content = data.get('content')
+    
+    if not content:
+        return jsonify({"error": "Content is required"}), 400
+    
+    post = {
+        "content": content,
+        "timestamp": datetime.now(timezone.utc),
+        "likes": 0
+    }
+    
+    result = forum_posts_collection.insert_one(post)
+    
+    return jsonify({"message": "Post created successfully", "id": str(result.inserted_id)}), 201
+
+
+# to display the post on the forum
+@app.route('/api/forum/posts', methods=['GET'])
+def get_forum_posts():
+    limit = int(request.args.get('limit', 50))
+    skip = int(request.args.get('skip', 0))
+    
+    posts = list(forum_posts_collection.find({}, {'_id': 1, 'content': 1, 'timestamp': 1, 'likes': 1})
+                 .sort('timestamp', -1)
+                 .skip(skip)
+                 .limit(limit))
+    
+    for post in posts:
+        post['_id'] = str(post['_id'])
+        post['timestamp'] = post['timestamp'].isoformat()
+    
+    return jsonify(posts), 200
+
+
+# to like the post on the forum
+@app.route('/api/forum/post/<post_id>/like', methods=['POST'])
+def like_forum_post(post_id):
+    try:
+        result = forum_posts_collection.update_one(
+            {'_id': ObjectId(post_id)},
+            {'$inc': {'likes': 1}}
+        )
+        
+        if result.modified_count == 0:
+            return jsonify({"error": "Post not found"}), 404
+        
+        return jsonify({"message": "Post liked successfully"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
 
 
 if __name__ == '__main__':
