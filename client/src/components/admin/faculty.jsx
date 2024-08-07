@@ -1,19 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import Header from '../header';
+import Footer from '../footer';
 
 const Faculty = () => {
-  const [facultyData, setFacultyData] = useState([]); // Store fetched faculty data
+  const { token } = useContext(AuthContext);
+  const [facultyData, setFacultyData] = useState([]);
   const [newFaculty, setNewFaculty] = useState({ name: '', position: '', education: '', email: '', imgsrc: '' });
   const [deleteFacultyEmail, setDeleteFacultyEmail] = useState('');
-  const [error, setError] = useState(''); // For error messages
+  const [error, setError] = useState('');
 
   useEffect(() => {
     fetchFacultyData();
-  }, []);
+  }, [token]);
 
   const fetchFacultyData = async () => {
     try {
-      const response = await axios.get('/api/admin/faculty');
+      const response = await axios.get('/api/admin/faculty', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       setFacultyData(response.data);
     } catch (error) {
       console.error('Error fetching faculty data:', error);
@@ -23,7 +30,11 @@ const Faculty = () => {
 
   const handleAddFaculty = async () => {
     try {
-      await axios.post('/api/admin/faculty', newFaculty);
+      await axios.post('/api/admin/faculty', newFaculty, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       fetchFacultyData();
       setNewFaculty({ name: '', position: '', education: '', email: '', imgsrc: '' });
     } catch (error) {
@@ -34,7 +45,12 @@ const Faculty = () => {
 
   const handleDeleteFaculty = async () => {
     try {
-      await axios.delete('/api/admin/faculty', { data: { email: deleteFacultyEmail } });
+      await axios.delete('/api/admin/faculty', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        data: { email: deleteFacultyEmail }
+      });
       fetchFacultyData();
       setDeleteFacultyEmail('');
     } catch (error) {
@@ -55,10 +71,9 @@ const Faculty = () => {
   return (
     <div className='flex flex-col m-4 gap-4 max-w-[1000px] self-center'>
       {error && <p className='text-red-500 mb-4'>{error}</p>}
-      {/* Display Faculty Data */}
       {facultyData.length > 0 ? (
-        facultyData.map((department) => (
-          <div key={department.name} className='mb-12'>
+        facultyData.map((department, index) => (
+          <div key={index} className='mb-12'>
             <div className='w-full h-20 bg-Dblue text-white flex flex-col justify-center items-center mb-4'>
               <i className='text-xl text-white'>Department of</i>
               <h1 className='text-3xl font-semibold text-white'>{department.name}</h1>
@@ -76,7 +91,6 @@ const Faculty = () => {
         <p className='text-gray-700'>No faculty data available.</p>
       )}
 
-      {/* Add Faculty Form */}
       <div className='mb-12'>
         <h3 className='text-2xl font-semibold text-Dblue mb-4'>Add Faculty</h3>
         <div className='flex flex-col gap-4'>
@@ -115,11 +129,12 @@ const Faculty = () => {
             onChange={(e) => setNewFaculty({ ...newFaculty, imgsrc: e.target.value })}
             className='p-2 border rounded-md'
           />
-          <button onClick={handleAddFaculty} className='bg-Dblue text-white p-2 rounded-md hover:bg-Dblue-dark'>Add</button>
+          <button onClick={handleAddFaculty} className='bg-Dblue text-white p-2 rounded-md hover:bg-Dblue-dark'>
+            Add
+          </button>
         </div>
       </div>
 
-      {/* Delete Faculty Form */}
       <div>
         <h3 className='text-2xl font-semibold text-Dblue mb-4'>Delete Faculty</h3>
         <div className='flex flex-col gap-4'>
@@ -130,9 +145,12 @@ const Faculty = () => {
             onChange={(e) => setDeleteFacultyEmail(e.target.value)}
             className='p-2 border rounded-md'
           />
-          <button onClick={handleDeleteFaculty} className='bg-red-600 text-white p-2 rounded-md hover:bg-red-700'>Delete</button>
+          <button onClick={handleDeleteFaculty} className='bg-red-600 text-white p-2 rounded-md hover:bg-red-700'>
+            Delete
+          </button>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

@@ -180,6 +180,7 @@ def handle_departments():
             return jsonify(departments), 200
         except Exception as e:
             return jsonify({'error': str(e)}), 500
+
     elif request.method == 'POST':
         try:
             new_department = request.json
@@ -199,13 +200,13 @@ def delete_department():
             return jsonify({'error': 'Department not found'}), 404
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-    
-# for admin to add, delete or see faculty
+
 @app.route('/api/admin/faculty', methods=['GET', 'POST', 'DELETE'])
 def handle_faculty():
     if request.method == 'GET':
         try:
             faculty = list(faculty_collection.find({}, {'_id': 0}))
+            # Assuming the data structure includes departments and their faculty members
             return jsonify(faculty), 200
         except Exception as e:
             return jsonify({'error': str(e)}), 500
@@ -226,7 +227,6 @@ def handle_faculty():
                 return jsonify({'error': 'Faculty not found'}), 404
         except Exception as e:
             return jsonify({'error': str(e)}), 500
-
 
 # for admin to add calendar
 @app.route('/api/admin/acad_calendar', methods=['POST'])
