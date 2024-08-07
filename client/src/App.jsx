@@ -13,6 +13,7 @@ import Login from './components/login/login.jsx';
 
 import { AuthProvider } from "./components/context/AuthContext.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import AlumniForum from './components/alumnipage.jsx';
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
           <Route path="/departments" element={<Department />} />
           <Route path="/resource" element={<Resources />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/alumin" element={<AlumniForum />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
