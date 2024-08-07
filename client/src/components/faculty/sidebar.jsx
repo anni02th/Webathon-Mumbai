@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { HiOutlineHome } from "react-icons/hi";
+import { HiAnnotation, HiOutlineHome } from "react-icons/hi";
 import { IoCalendarOutline } from "react-icons/io5";
 
 const Sidebar = ({ onSectionClick }) => {
@@ -51,6 +51,14 @@ const Sidebar = ({ onSectionClick }) => {
                     >
                         <IoCalendarOutline />
                         Time Table
+                    </li>
+                    <li
+                        className={`flex gap-2 p-2 pl-8 items-center hover:bg-white 
+                        ${selectedSection === 'Time Table' ? 'bg-white' : ''}`}
+                        onClick={() => handleSectionClick('Post Announcement')}
+                    >
+                        <HiAnnotation />
+                        Post Announcement
                     </li>
                 </ul>
             )}

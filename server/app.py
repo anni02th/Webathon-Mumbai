@@ -36,6 +36,8 @@ students_collection = mongo.db.students
 departments_collection = mongo.db.departments
 faculty_collection = mongo.db.faculty
 forum_posts_collection = mongo.db.forum_posts
+announcements_collection = mongo.db.announcements
+attendance_collection = mongo.db.students
 
 fs = gridfs.GridFS(mongo.db)
 db = mongo.db
@@ -465,6 +467,78 @@ def like_forum_post(post_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
+@app.route('/api/announcements', methods=['POST'])
+def post_announcement():
+    data = request.get_json()
+    title = data.get('title')
+    message = data.get('message')
+
+    if not title or not message:
+        return jsonify({'error': 'Title and message are required'}), 400
+
+    # Save announcement to a database or file
+    # For demonstration, just return a success message
+    return jsonify({'msg': 'Announcement posted successfully'}), 201
+
+# app.py
+@app.route('/api/announcements', methods=['GET'])
+def get_announcements():
+    # Fetch announcements from your database or file
+    announcements = [
+        {'title': 'Exam Schedule', 'message': 'The exam schedule has been updated.'},
+        {'title': 'Holiday Notice', 'message': 'The campus will be closed on August 15.'},
+    ]  # Replace with actual data retrieval logic
+    return jsonify(announcements)
+
+
+@app.route('/api/students', methods=['GET'])
+@jwt_required()
+def get_students():
+    try:
+        students = list(students_collection.find({}))
+        for student in students:
+            student['_id'] = str(student['_id'])
+        return jsonify(students), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# Fetch attendance records
+@app.route('/api/attendance', methods=['GET'])
+@jwt_required()
+def get_attendance():
+    try:
+        attendance = list(attendance_collection.find({}))
+        for record in attendance:
+            record['_id'] = str(record['_id'])
+            record['student']['_id'] = str(record['student']['_id'])
+        return jsonify(attendance), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# Mark attendance
+@app.route('/api/attendance', methods=['POST'])
+@jwt_required()
+def mark_attendance():
+    try:
+        data = request.get_json()
+        date = data.get('date')
+        type = data.get('type')
+        students = data.get('students')
+
+        for student in students:
+            attendance_record = {
+                "date": date,
+                "type": type,
+                "student": {
+                    "_id": ObjectId(student['id']),
+                    "present": student['present']
+                }
+            }
+            attendance_collection.insert_one(attendance_record)
+
+        return jsonify({"message": "Attendance marked successfully."}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

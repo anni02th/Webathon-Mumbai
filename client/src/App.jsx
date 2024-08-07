@@ -14,6 +14,9 @@ import Login from './components/login/login.jsx';
 import { AuthProvider } from "./components/context/AuthContext.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import AlumniForum from './components/alumnipage.jsx';
+import StudyBuddy from './components/student/studybuddy.jsx';
+import GPT from './components/student/gpt.jsx';
+import Blog from './components/onHome/blog.jsx';
 
 function App() {
   return (
@@ -52,6 +55,9 @@ function App() {
           <Route path="/resource" element={<Resources />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/alumin" element={<AlumniForum />} />
+          <Route path="/studybuddy" element={<StudyBuddy />} />
+          <Route path="/GPT" element={<GPT />} />
+          <Route path="/blogs" element={<Blog />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

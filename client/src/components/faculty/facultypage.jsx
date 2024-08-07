@@ -5,6 +5,7 @@ import Sidebar from './sidebar';
 import Card from '../card';
 import StudyMaterial from './StudyMaterial';
 import Attendance from './attendance';
+import Announcement from './announcement';
 
 const Facultypage = () => {
   const [selectedCard, setSelectedCard] = useState(null);
@@ -25,6 +26,9 @@ const Facultypage = () => {
       <div onClick={() => handleCardClick('Time Table')} className='w-fit h-fit hover:cursor-pointer'>
         <Card heading='View Time Table' srcimg='/faculty3.png' />
       </div>
+      <div onClick={() => handleCardClick('Post Announcement')} className='w-fit h-fit hover:cursor-pointer'>
+          <Card heading='Post Announcement' srcimg='/announcement.png' />
+      </div>
     </div>
     </div>
   );
@@ -43,6 +47,7 @@ const Facultypage = () => {
       
       {selectedCard === 'Upload Study Material' && <StudyMaterial />}
       {selectedCard === 'Update Attendance' && <Attendance />}
+      {selectedCard === 'Post Announcement' && <Announcement />}
       {selectedCard === 'Time Table' && <img src="/timetable.png" className="w-[100%] h-[100vh] object-contain object-top" />}
     </div>
   );

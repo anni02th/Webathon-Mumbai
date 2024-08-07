@@ -62,26 +62,13 @@ const AlumniForum = () => {
     }
   };
 
-  const handleLikePost = async (postId) => {
-    try {
-      await axios.post(`/api/forum/post/${postId}/like`);
-      const updatedPosts = posts.map((post) => {
-        if (post._id === postId) {
-          return { ...post, likes: post.likes + 1 };
-        }
-        return post;
-      });
-      setPosts(updatedPosts);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+
 
   return (
     <div >
       <Header />
-      <main className='flex-grow h-auto p-4'>
-        <h1 className='text-2xl font-bold'>Alumni Forum</h1>
+      <main className="flex-grow h-auto p-4">
+        <h1 className="text-2xl font-bold">Alumni Forum</h1>
         {loading ? (
           <p>Loading...</p>
         ) : (
@@ -93,40 +80,40 @@ const AlumniForum = () => {
                 value={newPost.heading}
                 onChange={handleNewPostChange}
                 placeholder="Heading"
-                className='w-full p-2 mb-4'
+                className="w-full p-2 mb-4"
               />
               <input
                 type="file"
                 name="image"
                 onChange={handleImageChange}
-                className='w-full p-2 mb-4'
+                className="w-full p-2 mb-4"
               />
               <input
                 type="datetime-local"
                 name="date"
                 value={newPost.date}
                 onChange={handleNewPostChange}
-                className='w-full p-2 mb-4'
+                className="w-full p-2 mb-4"
               />
               <textarea
                 name="body"
                 value={newPost.body}
                 onChange={handleNewPostChange}
                 placeholder="Body"
-                className='w-full p-2 mb-4'
+                className="w-full p-2 mb-4"
               />
               <button
                 onClick={handleAddPost}
-                className='px-3 bg-Dbblue rounded text-white'
+                className="px-3 bg-Dbblue rounded text-white"
               >
                 Add Post
               </button>
             </form>
             <ul>
               {posts.sort((a, b) => b.likes - a.likes).map((post) => (
-                <li key={post._id} className='mb-4'>
+                <li key={post._id} className="mb-4">
                   <div className="bg-white rounded-3xl hover:shadow-xl transition duration-300 hover:scale-95 cursor-pointer">
-                    <div className='p-6'>
+                    <div className="p-6">
                       <img
                         src={post.image}
                         alt="Post Image"
@@ -135,11 +122,17 @@ const AlumniForum = () => {
                       <button className="bg-Dblue text-white py-1 px-6 rounded-full mb-4 hover:bg-Dbblue transition duration-200 w-full md:w-auto">
                         Post
                       </button>
-                      <h2 className='text-black font-medium'>{post.date}</h2>
+                      <h2 className="text-black font-medium">{post.date}</h2>
                       <h3 className="text-Dblue text-lg lg:text-xl font-bold">{post.heading}</h3>
                       <p className="text-gray-700 mt-2">
                         {post.body}
                       </p>
+                      <button
+                        
+                        className="bg-Dblue text-white py-1 px-6 rounded-full mb-4 hover:bg-Dbblue transition duration-200 w-full md:w-auto"
+                      >
+                        Like ({post.likes})
+                      </button>
                     </div>
                   </div>
                 </li>
