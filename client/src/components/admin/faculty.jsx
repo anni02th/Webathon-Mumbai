@@ -137,4 +137,4 @@ const Faculty = () => {
   );
 };
 
-export default Faculty; 
+export default Faculty;

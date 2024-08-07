@@ -321,8 +321,6 @@ def personalized_gpt():
 
     return jsonify(result)
 
-
-# to upload the notes
 @app.route('/api/upload_note', methods=['POST'])
 def upload_note():
     file = request.files.get('file')
@@ -339,10 +337,11 @@ def upload_note():
     if not all([subject, unit, branch, uploaded_by, div, year]):
         return jsonify({"error": "All metadata fields are required"}), 400
 
-    file_id = fs.put(file, filename=file.filename)
+    filename = secure_filename(file.filename)
+    file_id = fs.put(file, filename=filename)
 
     db.notes.insert_one({
-        "filename": file.filename,
+        "filename": filename,
         "file_id": file_id,
         "upload_date": datetime.now(timezone.utc),
         "subject": subject,
@@ -354,7 +353,6 @@ def upload_note():
     })
 
     return jsonify({"message": "Note has been successfully uploaded", "file_id": str(file_id)})
-
 
 # to download the notes
 @app.route('/api/download_note/<file_id>', methods=['GET'])
@@ -374,36 +372,22 @@ def download_note(file_id):
         return jsonify({"error": str(e)}), 500
 
 
-# to display the notes
-@app.route('/api/get_notes', methods=['GET'])
+@app.route('/api/notes', methods=['GET'])
 def get_notes():
-    subject = request.args.get('subject')
-    unit = request.args.get('unit')
-    branch = request.args.get('branch')
-    uploaded_by = request.args.get('uploaded_by')
-    div = request.args.get('div')
-    year = request.args.get('year')
-
-    query = {}
-    if subject:
-        query['subject'] = subject
-    if unit:
-        query['unit'] = unit
-    if branch:
-        query['branch'] = branch
-    if uploaded_by:
-        query['uploaded_by'] = uploaded_by
-    if div:
-        query['div'] = div
-    if year:
-        query['year'] = year
-
-    notes = list(db.notes.find(query))
+    notes = db.notes.find()
+    notes_list = []
     for note in notes:
-        note['_id'] = str(note['_id'])
-        note['file_id'] = str(note['file_id'])
-
-    return jsonify(notes)
+        notes_list.append({
+            "filename": note['filename'],
+            "subject": note['subject'],
+            "unit": note['unit'],
+            "branch": note['branch'],
+            "uploaded_by": note['uploaded_by'],
+            "div": note['div'],
+            "year": note['year'],
+            "upload_date": note['upload_date'].isoformat()
+        })
+    return jsonify(notes_list)
 
 
 # to post on the forum
