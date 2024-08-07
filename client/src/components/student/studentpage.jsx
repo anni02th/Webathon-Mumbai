@@ -32,7 +32,7 @@ const StudentPage = () =>{
         <Card heading='Study Buddy' srcimg='/faculty1.png' />
       </div>
       <div onClick={() => handleCardClick('Personalized GPT')} className='w-fit h-fit hover:cursor-pointer'>
-        <Card heading='Personalized GPT' srcimg='/student1.png' />
+        <Card heading='Personalized GPT' srcimg='/student.png' />
       </div>
       <div onClick={() => handleCardClick('Community Chat')} className='w-fit h-fit hover:cursor-pointer'>
         <Card heading='Community Chat' srcimg='/student2.png' />

@@ -3,21 +3,21 @@ import './Page5.css'; // Ensure to create this CSS file with transition styles
 
 const reviews = [
   {
-    image: 'page5-1.png',
-    name: 'Carmen Hodkiewicz',
+    image: 'page5-4.jpeg',
+    name: 'Rasika Mhaske',
     title: 'Computer Science and Design Engineer',
-    review: 'As a student at KK Wagh Engineering College, I appreciate the rigorous academics and the knowledgeable, supportive faculty. The modern infrastructure and extensive extracurricular activities provide a balanced and enriching college experience. Overall, I feel well-prepared for my future career thanks to the comprehensive education and active career services.'
+    review: 'As a student at KK Wagh Engineering College, I appreciate the rigorous academics and the knowledgeable, supportive faculty. Overall, I feel well-prepared for my future career thanks to the comprehensive education and active career services.'
   },
   {
-    image: 'secondphoto.jpg',
-    name: 'Angelina Jollie',
+    image: 'page5-2.png',
+    name: 'Aniket More',
     title: 'Software Developer',
     review: 'KK Wagh Engineering College has provided me with a solid foundation in engineering principles and hands-on experience. The faculty are always available to help, and the campus facilities are excellent.'
   },
   {
-    image: 'thirdphoto.jpg',
-    name: 'Jane Smith',
-    title: 'Mechanical Engineer',
+    image: 'page5-3.jpg',
+    name: 'Aditya Borse',
+    title: 'Backend Developer',
     review: 'The diverse range of extracurricular activities and the supportive community at KK Wagh Engineering College have made my time here truly enjoyable. I feel confident and ready to tackle my future career.'
   }
 ];
@@ -48,7 +48,7 @@ const Page5 = () => {
       <div className='relative w-[80%] overflow-hidden'>
         <div className='carousel flex transition-transform duration-500 ease-in-out' style={{ transform: `translateX(-${currentReviewIndex * 100}%)` }}>
           {reviews.map((review, index) => (
-            <div key={index} className='flex flex-col items-center justify-center min-w-full'>
+            <div key={index} className='flex flex-col items-center justify-start min-w-full'>
               <img src={review.image} alt={review.name} className='h-48 w-48 object-cover rounded-full' />
               <h1 className='text-3xl m-8 font-semibold text-white'>{review.name}</h1>
               <p className='text-lg text-white'>{review.title}</p>
@@ -63,9 +63,6 @@ const Page5 = () => {
             onClick={() => setCurrentReviewIndex((currentReviewIndex + 1) % reviews.length)}></button>
         </div>
       </div>
-      <p className="text-lg m-6 max-w-xl mx-auto text-balance text-white">
-        {review}
-      </p>
     </div>
   );
 };

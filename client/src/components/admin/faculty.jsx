@@ -69,8 +69,7 @@ const Faculty = () => {
   );
 
   return (
-    <div className='p-4'>
-      <Header />
+    <div className='flex flex-col m-4 gap-4 max-w-[1000px] self-center'>
       {error && <p className='text-red-500 mb-4'>{error}</p>}
       {facultyData.length > 0 ? (
         facultyData.map((department, index) => (
