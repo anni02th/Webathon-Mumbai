@@ -15,6 +15,9 @@ const Contact = () => {
     yourMess: '',
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -24,12 +27,23 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setError('');
     try {
       await axios.post('http://localhost:5000/send-mail', formData);
       alert('Mail sent successfully!');
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phoneNo: '',
+        yourMess: '',
+      });
     } catch (error) {
       console.error('There was an error sending the mail!', error);
+      setError('There was an error sending the mail. Please try again later.');
     }
+    setIsSubmitting(false);
   };
 
   return (
@@ -68,23 +82,24 @@ const Contact = () => {
                 <textarea name="yourMess" id="yourMess" value={formData.yourMess} onChange={handleChange} className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-Dbblue focus:border-Dbblue sm:text-sm" rows="4"></textarea>
               </div>
               <div className="text-right">
-                <button type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-Dblue hover:bg-Dbblue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-Dbblue">Submit</button>
+                <button type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-Dblue hover:bg-Dbblue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-Dbblue" disabled={isSubmitting}>Submit</button>
               </div>
+              {error && <p className="text-red-500 text-sm">{error}</p>}
             </form>
           </div>
           <div className="w-1/3 hidden lg:flex flex-col items-center justify-center">
             <div className="mb-4 flex flex-col m-auto items-center">
-               <PiBuildingApartment className='w-[60px] h-[60px] bg-slate-300 p-2 rounded-lg'/>
+              <PiBuildingApartment className='w-[60px] h-[60px] bg-slate-300 p-2 rounded-lg'/>
               <h1 className="text-lg font-semibold">College info:</h1>
               <h5 className="text-center">K.K.Wagh College of Engineering Education and Research Nashik</h5>
             </div>
             <div className="mb-4 flex flex-col m-auto items-center">
-               <HiLocationMarker className='w-[60px] h-[60px] bg-slate-300 p-2 rounded-lg'/>
+              <HiLocationMarker className='w-[60px] h-[60px] bg-slate-300 p-2 rounded-lg'/>
               <h1 className="text-lg font-semibold">Address:</h1>
               <h5 className="text-center">Hirabai Haridas Vidyanagari, Mumbai Agra Road Amrutdham, Panchavati, Nashik, Maharashtra 422003</h5>
             </div>
             <div className="mb-4 flex flex-col m-auto items-center">
-               <IoCallSharp className='w-[60px] h-[60px] bg-slate-300 p-2 rounded-lg'/>
+              <IoCallSharp className='w-[60px] h-[60px] bg-slate-300 p-2 rounded-lg'/>
               <h1 className="text-lg font-semibold">Call us:</h1>
               <h5 className="text-center"><a href="tel:02532512867" className='hover:text-Dblue font-medium'>to College</a> | <a href="tel:9356738604" className='hover:text-Dblue font-medium'>to Webadmin</a></h5>
             </div>
