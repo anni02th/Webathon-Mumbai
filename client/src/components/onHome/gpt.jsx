@@ -29,18 +29,30 @@ export default function GPT() {
         },
       });
 
-      // Polling for real-time updates
+      console.log(res.data); // Debugging statement
+
+      const taskId = res.data.taskId;
+      if (!taskId) {
+        throw new Error('Failed to retrieve taskId from response');
+      }
+
       const pollInterval = setInterval(async () => {
-        const result = await axios.get(`/api/personalizedgpt/status/${res.data.taskId}`);
-        if (result.data.status === 'completed') {
+        try {
+          const result = await axios.get(`/api/personalizedgpt/status/${taskId}`);
+          if (result.data.status === 'completed') {
+            clearInterval(pollInterval);
+            setResponse(result.data.response);
+            setLoading(false);
+          }
+        } catch (pollError) {
           clearInterval(pollInterval);
-          setResponse(result.data.response);
-          setLoading(false); // Hide the loader
+          console.error('Polling error:', pollError);
+          setLoading(false);
         }
       }, 1000);
 
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error in fetching response:', error);
       alert('Failed to get response.');
       setLoading(false); // Hide the loader in case of error
     }

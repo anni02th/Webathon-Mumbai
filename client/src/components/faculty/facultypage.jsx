@@ -27,7 +27,7 @@ const Facultypage = () => {
         <Card heading='View Time Table' srcimg='/faculty3.png' />
       </div>
       <div onClick={() => handleCardClick('Post Announcement')} className='w-fit h-fit hover:cursor-pointer'>
-          <Card heading='Post Announcement' srcimg='/announcement.png' />
+          <Card heading='Post Announcement' srcimg='/faculty4.png' />
       </div>
     </div>
     </div>

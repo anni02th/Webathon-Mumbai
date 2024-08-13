@@ -301,7 +301,7 @@ def get_directions():
     return jsonify({'location': location})
 
 
-# for personalized gpt - extract text from pdf
+# Function to extract text from a PDF file
 def extract_text_from_pdf(pdf_path):
     doc = fitz.open(pdf_path)
     text = ""
@@ -310,38 +310,50 @@ def extract_text_from_pdf(pdf_path):
         text += page.get_text()
     return text
 
-
-# for personalized gpt
+# Route to handle personalized GPT requests
 @app.route('/api/personalizedgpt', methods=['POST'])
 def personalized_gpt():
     query = request.form.get('query')
     if not query:
-        return jsonify({"error": "Query is required", "your_query": query}), 400
+        return jsonify({"error": "Query is required"}), 400
 
     pdf_file = request.files.get('file')
+    context = ""
+
+    # If a PDF is uploaded, extract text from it
     if pdf_file:
-        
-        with tempfile.NamedTemporaryFile(delete=False) as tmp:
-            pdf_path = tmp.name
-            pdf_file.save(pdf_path)
+        try:
+            with tempfile.NamedTemporaryFile(delete=False) as tmp:
+                pdf_path = tmp.name
+                pdf_file.save(pdf_path)
+            context = extract_text_from_pdf(pdf_path)
+        except Exception as e:
+            return jsonify({"error": f"Error extracting text from PDF: {str(e)}"}), 500
 
-        context = extract_text_from_pdf(pdf_path)
-        prompt = "Your name is PersonalizedGPT and you are a helpful and knowledgeable assistant for college students. You assist with their studies and provide consise explanations based on the provided PDF notes.\n\n {context}\n\nBased on the above notes, answer the following query:\n{query}"
+    # Create the prompt with or without PDF context
+    if context:
+        prompt = f"Your name is PersonalizedGPT and you are a helpful and knowledgeable assistant for college students. You assist with their studies and provide concise explanations based on the provided PDF notes.\n\n{context}\n\nBased on the above notes, answer the following query:\n{query}"
     else:
-        prompt = "You name is PersonalizedGPT and you are a helpful and knowledgeable assistant for college students. You assist with their studies and provide consise explanations and answers.\n\nAnswer the following query:\n{query}"
+        prompt = f"Your name is PersonalizedGPT and you are a helpful and knowledgeable assistant for college students. You assist with their studies and provide concise explanations and answers.\n\nAnswer the following query:\n{query}"
 
-    response = requests.post("https://api.cloudflare.com/client/v4/accounts/{ACCOUNT_ID}/ai/run/@cf/meta/llama-3-8b-instruct",
-        headers={"Authorization": f"Bearer {AUTH_TOKEN}"},
-        json={
-            "messages": [
-                {"role": "system", "content": "You are a friendly assistant"},
-                {"role": "user", "content": prompt}
-            ]
-        }
-    )
+    # Send the prompt to the GPT model
+    try:
+        response = requests.post(
+            "https://api.cloudflare.com/client/v4/accounts/{ACCOUNT_ID}/ai/run/@cf/meta/llama-3-8b-instruct",
+            headers={"Authorization": f"Bearer {AUTH_TOKEN}"},
+            json={
+                "messages": [
+                    {"role": "system", "content": "You are a friendly assistant"},
+                    {"role": "user", "content": prompt}
+                ]
+            }
+        )
+        response.raise_for_status()  # Raise an exception for HTTP errors
+        result = response.json()
+    except requests.exceptions.RequestException as e:
+        return jsonify({"error": f"Error communicating with GPT model: {str(e)}"}), 500
 
-    result = response.json()
-
+    # Return the response from the GPT model
     return jsonify(result)
 
 @app.route('/api/upload_note', methods=['POST'])

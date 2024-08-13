@@ -17,25 +17,14 @@ const Announcement = () => {
       setTitle('');
       setMessage('');
     } catch (error) {
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        setStatus(`Error: ${error.response.data.error || 'Error posting announcement.'}`);
-      } else if (error.request) {
-        // The request was made but no response was received
-        setStatus('Error: No response from server.');
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        setStatus(`Error: ${error.message}`);
-      }
-      console.error('Error posting announcement:', error);
+      setStatus(`Error: ${error.response?.data.error || 'Error posting announcement.'}`);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className='container p-4 h-[100vh] '>
+    <div className='container p-4 h-[100vh]'>
       <h2 className='text-2xl font-bold mb-4'>Post an Announcement</h2>
       <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
         <input

@@ -11,24 +11,24 @@ const Notifications = () => {
       try {
         const response = await axios.get('/api/announcements');
         setAnnouncements(response.data);
-        setLoading(false);
       } catch (error) {
         setError('Failed to fetch announcements.');
+      } finally {
         setLoading(false);
-        console.error('Error fetching announcements:', error);
       }
     };
 
     fetchAnnouncements();
   }, []);
 
-  if (loading) return <div className='h-[100vh]'>Loading...</div>;
-  if (error) return <div className='h-[100vh]'>{error}</div>;
-
   return (
     <div className='h-[100vh] p-4'>
       <h2 className='text-2xl font-bold mb-4'>Announcements</h2>
-      {announcements.length === 0 ? (
+      {loading ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <p>{error}</p>
+      ) : announcements.length === 0 ? (
         <p>No announcements available.</p>
       ) : (
         <ul>

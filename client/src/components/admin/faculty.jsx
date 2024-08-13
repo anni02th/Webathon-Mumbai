@@ -1,10 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const departments = [
+    { label: 'Artificial Intelligence And Data Science', value: 'Artificial Intelligence And Data Science' },
+    { label: 'Civil Engineering', value: 'Civil Engineering' },
+    { label: 'Chemical Engineering', value: 'Chemical Engineering' },
+    { label: 'Computer Engineering', value: 'Computer Engineering' },
+    { label: 'Computer Science And Design', value: 'Computer Science And Design' },
+    { label: 'Electrical Engineering', value: 'Electrical Engineering' },
+    { label: 'Electronics & Telecommunication Engineering', value: 'Electronics & Telecommunication Engineering' },
+    { label: 'Information Technology', value: 'Information Technology' },
+    { label: 'Mechanical Engineering', value: 'Mechanical Engineering' },
+    { label: 'Robotics And Automation', value: 'Robotics And Automation' }
+];
+
 export default function Faculty() {
     const [facultyList, setFacultyList] = useState([]);
     const [editFaculty, setEditFaculty] = useState(null);
-    const [formData, setFormData] = useState({ id: '', imgsrc: '', name: '', position: '', education: '' });
+    const [formData, setFormData] = useState({ id: '', imgsrc: '', name: '', position: '', education: '', department: '' });
 
     useEffect(() => {
         fetchFaculty();
@@ -26,7 +39,7 @@ export default function Faculty() {
 
     const handleAddClick = () => {
         setEditFaculty(null);
-        setFormData({ id: '', imgsrc: '', name: '', position: '', education: '' });
+        setFormData({ id: '', imgsrc: '', name: '', position: '', education: '', department: '' });
     };
 
     const handleDeleteClick = async (id) => {
@@ -54,43 +67,98 @@ export default function Faculty() {
             }
             fetchFaculty();
             setEditFaculty(null);
-            setFormData({ id: '', imgsrc: '', name: '', position: '', education: '' });
+            setFormData({ id: '', imgsrc: '', name: '', position: '', education: '', department: '' });
         } catch (error) {
             console.error('Error saving faculty:', error);
         }
     };
 
     const card = (faculty) => (
-        <div key={faculty.id} className='w-72 h-72 border-2 rounded-lg shadow-lg flex flex-col gap-2 justify-center items-center p-2'>
-            <img src={faculty.imgsrc} alt="" className='w-36 h-36 object-fill' />
-            <h1 className='text-xl font-medium'>{faculty.name}</h1>
-            <p className='text-slate-700'>{faculty.position}</p>
-            <p className='text-slate-700 text-center' >{faculty.education}</p>
-            <button onClick={() => handleEditClick(faculty)} className='text-blue-500'>Edit</button>
-            <button onClick={() => handleDeleteClick(faculty.id)} className='text-red-500'>Delete</button>
+        <div key={faculty.id} className='w-full h-32 border-2 rounded-lg shadow-lg flex items-center gap-4 p-4 bg-white'>
+            <img src={faculty.imgsrc} alt={faculty.name} className='w-24 h-24 object-cover rounded-full' />
+            <div className='flex-1'>
+                <h1 className='text-xl font-medium text-gray-800'>{faculty.name}</h1>
+                <p className='text-slate-700'>{faculty.position}</p>
+                <p className='text-slate-600'>{faculty.education}</p>
+                <p className='text-slate-600'>{faculty.department}</p>
+            </div>
+            <div className='flex flex-col gap-2'>
+                <button onClick={() => handleEditClick(faculty)} className='text-blue-500 hover:underline'>Edit</button>
+                <button onClick={() => handleDeleteClick(faculty.id)} className='text-red-500 hover:underline'>Delete</button>
+            </div>
         </div>
     );
 
     return (
         <div>
-            <div className='w-[100%] mb-8'>
-                <div className='w-[100%] h-20 bg-Dblue text-white flex flex-col justify-center items-center'>
-                    <i className='text-xl text-white'>Department of</i>
-                    <h1 className='text-3xl font-semibold text-white'>Computer Engineering</h1>
+            <div className='w-full mb-8'>
+                <div className='w-full h-20 bg-Dblue text-white flex flex-col justify-center items-center'>
+                    <i className='text-xl text-white'>Page of</i>
+                    <h1 className='text-3xl font-semibold text-white'>Faculty Management</h1>
                 </div>
-                <div className='w-[100%] flex gap-16 mt-8 flex-wrap justify-center'>
-                    {facultyList.map((faculty) => card(faculty))}
+                <div className='w-full flex flex-col gap-4 mt-8'>
+                    {facultyList.map(faculty => card(faculty))}
                 </div>
             </div>
 
-            <button onClick={handleAddClick} className='bg-green-500 text-white mb-4'>Add New Faculty</button>
+            <div className='flex justify-center mb-8'>
+                <button onClick={handleAddClick} className='bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600'>Add New Faculty</button>
+            </div>
 
-            <form onSubmit={handleFormSubmit} className='flex flex-col gap-4'>
-                <input type='text' name='imgsrc' value={formData.imgsrc} onChange={handleInputChange} placeholder='Image Source' required />
-                <input type='text' name='name' value={formData.name} onChange={handleInputChange} placeholder='Name' required />
-                <input type='text' name='position' value={formData.position} onChange={handleInputChange} placeholder='Position' required />
-                <input type='text' name='education' value={formData.education} onChange={handleInputChange} placeholder='Education' required />
-                <button type='submit' className='bg-blue-500 text-white'>{editFaculty ? 'Update' : 'Add'}</button>
+            <form onSubmit={handleFormSubmit} className='flex flex-col gap-4 max-w-md mx-auto mb-8'>
+                <input
+                    type='text'
+                    name='imgsrc'
+                    value={formData.imgsrc}
+                    onChange={handleInputChange}
+                    placeholder='Image Source'
+                    className='p-2 border rounded-md'
+                    required
+                />
+                <input
+                    type='text'
+                    name='name'
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    placeholder='Name'
+                    className='p-2 border rounded-md'
+                    required
+                />
+                <input
+                    type='text'
+                    name='position'
+                    value={formData.position}
+                    onChange={handleInputChange}
+                    placeholder='Position'
+                    className='p-2 border rounded-md'
+                    required
+                />
+                <input
+                    type='text'
+                    name='education'
+                    value={formData.education}
+                    onChange={handleInputChange}
+                    placeholder='Education'
+                    className='p-2 border rounded-md'
+                    required
+                />
+                <select
+                    name='department'
+                    value={formData.department}
+                    onChange={handleInputChange}
+                    className='p-2 border rounded-md'
+                    required
+                >
+                    <option value='' disabled>Select Department</option>
+                    {departments.map((dept) => (
+                        <option key={dept.value} value={dept.value}>
+                            {dept.label}
+                        </option>
+                    ))}
+                </select>
+                <button type='submit' className='bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600'>
+                    {editFaculty ? 'Update' : 'Add'}
+                </button>
             </form>
         </div>
     );
