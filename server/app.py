@@ -15,6 +15,7 @@ from flask_mail import Mail, Message
 import gridfs
 from datetime import datetime, timezone
 load_dotenv()
+import logging
 
 app = Flask(__name__)
 
@@ -300,6 +301,7 @@ def get_directions():
     location = get_classroom_location(classroom)
     return jsonify({'location': location})
 
+logging.basicConfig(level=logging.DEBUG)
 
 # Function to extract text from a PDF file
 def extract_text_from_pdf(pdf_path):
@@ -315,6 +317,7 @@ def extract_text_from_pdf(pdf_path):
 def personalized_gpt():
     query = request.form.get('query')
     if not query:
+        return jsonify({"error": "Query is required"}), 400
         return jsonify({"error": "Query is required"}), 400
 
     pdf_file = request.files.get('file')
@@ -334,6 +337,7 @@ def personalized_gpt():
     if context:
         prompt = f"Your name is PersonalizedGPT and you are a helpful and knowledgeable assistant for college students. You assist with their studies and provide concise explanations based on the provided PDF notes.\n\n{context}\n\nBased on the above notes, answer the following query:\n{query}"
     else:
+        prompt = f"Your name is PersonalizedGPT and you are a helpful and knowledgeable assistant for college students. You assist with their studies and provide concise explanations and answers.\n\nAnswer the following query:\n{query}"
         prompt = f"Your name is PersonalizedGPT and you are a helpful and knowledgeable assistant for college students. You assist with their studies and provide concise explanations and answers.\n\nAnswer the following query:\n{query}"
 
     # Send the prompt to the GPT model

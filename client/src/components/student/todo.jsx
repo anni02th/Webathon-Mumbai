@@ -1,82 +1,77 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 
 export default function ToDo() {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
 
-  // Function to fetch tasks
-  const fetchTasks = () => {
-    axios.get('/api/tasks')
-      .then(response => {
-        setTasks(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching tasks:', error);
-        alert('Failed to fetch tasks.');
-      });
+  const handleInputChange = (e) => {
+    setNewTask(e.target.value);
   };
 
-  useEffect(() => {
-    fetchTasks();
-  }, []);
-
-  const addTask = () => {
-    if (newTask) {
-      axios.post('/api/tasks', { task: newTask })
-        .then(() => {
-          fetchTasks();
-          setNewTask('');
-        })
-        .catch(error => {
-          console.error('Error adding task:', error);
-          alert('Failed to add task.');
-        });
+  const handleAddTask = () => {
+    if (newTask.trim()) {
+      setTasks([...tasks, { text: newTask, completed: false }]);
+      setNewTask('');
     }
   };
 
-  const removeTask = (id) => {
-    axios.delete(`/api/tasks/${id}`)
-      .then(() => {
-        fetchTasks();
-      })
-      .catch(error => {
-        console.error('Error removing task:', error);
-        alert('Failed to remove task.');
-      });
+  const handleToggleTask = (index) => {
+    const updatedTasks = tasks.map((task, i) => {
+      if (i === index) {
+        return { ...task, completed: !task.completed };
+      }
+      return task;
+    });
+    setTasks(updatedTasks);
+  };
+
+  const handleDeleteTask = (index) => {
+    const updatedTasks = tasks.filter((_, i) => i !== index);
+    setTasks(updatedTasks);
   };
 
   return (
-    <div className="h-[100vh] p-4">
-      <h1 className="text-2xl mb-4">To-Do List</h1>
-      <div className="mb-4 flex">
-        <input
-          type="text"
-          value={newTask}
-          onChange={e => setNewTask(e.target.value)}
-          className="border p-2 rounded flex-grow mr-2"
-          placeholder="Add a new task"
-        />
-        <button
-          onClick={addTask}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Add
-        </button>
+    <div className='min-h-[100vh] h-fit flex justify-center '>
+      <div className='bg-white p-8 rounded shadow-md w-full max-w-2xl h-fit '>
+        <div className='flex mb-4'>
+          <input
+            type='text'
+            value={newTask}
+            onChange={handleInputChange}
+            className='w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
+            placeholder='Add a new task'
+          />
+          <button
+            onClick={handleAddTask}
+            className='ml-2 bg-indigo-600 text-white py-2 px-4 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm'
+          >
+            Add
+          </button>
+        </div>
+        <ul className='list-disc pl-5'>
+          {tasks.map((task, index) => (
+            <li key={index} className='flex items-center mb-2'>
+              <input
+                type='checkbox'
+                checked={task.completed}
+                onChange={() => handleToggleTask(index)}
+                className='form-checkbox h-5 w-5 text-indigo-600'
+              />
+              <span
+                className={`ml-2 ${task.completed ? 'line-through text-gray-500' : ''}`}
+              >
+                {task.text}
+              </span>
+              <button
+                onClick={() => handleDeleteTask(index)}
+                className='ml-auto bg-red-600 text-white py-1 px-2 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:text-sm'
+              >
+                Delete
+              </button>
+            </li>
+          ))}
+        </ul>
       </div>
-      <ul>
-        {tasks.map(task => (
-          <li key={task._id} className="flex justify-between items-center mb-2">
-            <span>{task.task}</span>
-            <button
-              onClick={() => removeTask(task._id)}
-              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Remove
-            </button>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }

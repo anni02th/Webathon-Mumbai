@@ -29,7 +29,7 @@ const Attendance = () => {
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="h-[100vh] p-4">
+    <div className="h-[100vh]">
       <h1 className="text-2xl mb-4">Attendance Records</h1>
       <table className="min-w-full divide-y divide-gray-200">
         <thead>

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Loader from '../loader'; // Import the Loader component
 
 export default function GPT() {
   const [input, setInput] = useState('');
@@ -29,16 +28,26 @@ export default function GPT() {
         },
       });
 
-      // Polling for real-time updates
-      const pollInterval = setInterval(async () => {
-        const result = await axios.get(`/api/personalizedgpt/status/${res.data.taskId}`);
-        if (result.data.status === 'completed') {
-          clearInterval(pollInterval);
-          setResponse(result.data.response);
-          setLoading(false); // Hide the loader
-        }
-      }, 1000);
-
+      if (res.data.taskId) {
+        const pollInterval = setInterval(async () => {
+          try {
+            const result = await axios.get(`/api/personalizedgpt/status/${res.data.taskId}`);
+            if (result.data.status === 'completed') {
+              clearInterval(pollInterval);
+              setResponse(result.data.response);
+              setLoading(false); // Hide the loader
+            }
+          } catch (error) {
+            clearInterval(pollInterval);
+            console.error('Error during polling:', error);
+            setLoading(false); // Hide the loader in case of error
+            alert('Failed to get response.');
+          }
+        }, 1000);
+      } else {
+        setLoading(false);
+        alert('Failed to start task.');
+      }
     } catch (error) {
       console.error('Error:', error);
       alert('Failed to get response.');
@@ -47,7 +56,20 @@ export default function GPT() {
   };
 
   return (
-    <div className="h-[70vh] w-[100%] p-4 flex flex-col items-center justify-center">
+    <div className="h-[70vh] w-full p-4 flex flex-col items-center justify-center">
+      <div className='h-full w-full flex items-center justify-center'>
+        {loading && (
+          <div className="flex items-center justify-center mt-4">
+            <div className="w-8 h-8 border-4 border-t-4 border-t-transparent border-blue-500 rounded-full animate-spin"></div>
+          </div>
+        )}
+        {response && !loading && (
+          <div className="mt-4 p-2 bg-gray-100 rounded w-full">
+            <h3 className="font-bold">Response:</h3>
+            <p>{response}</p>
+          </div>
+        )}
+      </div>
       <textarea
         value={input}
         onChange={(e) => setInput(e.target.value)}
@@ -55,24 +77,11 @@ export default function GPT() {
         rows="4"
         placeholder="Ask anything..."
       />
-      <input
-        type="file"
-        onChange={handleFileChange}
-        className="mb-4"
-      />
-      <button
-        onClick={fetchResponse}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
+      <input type="file" onChange={handleFileChange} className="mb-4" />
+      <button onClick={fetchResponse} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >
         Get Response
       </button>
-      {loading && <Loader />} {/* Show loader when loading */}
-      {response && !loading && (
-        <div className="mt-4 p-2 bg-gray-100 rounded">
-          <h3 className="font-bold">Response:</h3>
-          <p>{response}</p>
-        </div>
-      )}
+
     </div>
   );
 }
