@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Header from '../header';
-import Footer from '../footer';
 
 const Blog = () => {
   const [posts, setPosts] = useState([]);
@@ -25,7 +23,6 @@ const Blog = () => {
 
   return (
     <div >
-      <Header />
       <main className='flex-grow h-auto p-4'>
         <h1 className='text-2xl font-bold'>Blog</h1>
         {loading ? (
@@ -55,7 +52,6 @@ const Blog = () => {
           </div>
         )}
       </main>
-      <Footer className="self-end"/>
     </div>
   );
 };

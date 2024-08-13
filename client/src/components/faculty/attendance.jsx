@@ -4,12 +4,11 @@ import axios from 'axios';
 export default function Attendance() {
   const [attendanceData, setAttendanceData] = useState([]);
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]); // Set today's date by default
-  const [type, setType] = useState('lecture');
   const [students, setStudents] = useState([]);
 
   // Function to fetch attendance data
   const fetchAttendanceData = () => {
-    axios.get('/api/attendance')
+    axios.get(`/api/attendance/data?date=${date}`)
       .then(response => {
         setAttendanceData(response.data);
       })
@@ -27,27 +26,26 @@ export default function Attendance() {
       })
       .catch(error => {
         console.error('Error fetching students:', error);
-        alert('Failed to fetch student data.');
+        alert('Failed to fetch student data. ' + error.response.data.error);
       });
   };
 
   useEffect(() => {
     fetchAttendanceData();
     fetchStudentData();
-  }, []);
+  }, [date]);
 
   // Function to handle marking attendance
   const handleMarkAttendance = () => {
     const attendanceRecord = {
       date: date,
-      type: type,
       students: students.map(student => ({
         id: student._id,
         present: document.getElementById(`present-${student._id}`).checked
       }))
     };
 
-    axios.post('/api/attendance', attendanceRecord)
+    axios.post('/api/attendance/mark', attendanceRecord)
       .then(() => {
         fetchAttendanceData(); // Refresh attendance data after posting
         alert('Attendance marked successfully.');
@@ -61,23 +59,15 @@ export default function Attendance() {
   return (
     <div className="h-[100vh] p-4">
       <h1 className="text-2xl mb-4">Attendance Management</h1>
-      
+
       {/* Date and Type Selection */}
       <div className="mb-4">
-        <input 
-          type="date" 
-          value={date} 
-          onChange={e => setDate(e.target.value)} 
+        <input
+          type="date"
+          value={date}
+          onChange={e => setDate(e.target.value)}
           className="border p-2 rounded mr-4"
         />
-        <select 
-          value={type} 
-          onChange={e => setType(e.target.value)} 
-          className="border p-2 rounded"
-        >
-          <option value="lecture">Lecture</option>
-          <option value="practical">Practical</option>
-        </select>
       </div>
 
       {/* Mark Attendance Section */}
@@ -87,12 +77,12 @@ export default function Attendance() {
           <div key={student._id} className="mb-1">
             <label>
               <input type="checkbox" id={`present-${student._id}`} className="mr-2" />
-              {student.name || 'Unnamed Student'}
+              {student.firstName || 'Unnamed Student'} {student.lastName || ''}
             </label>
           </div>
         ))}
-        <button 
-          onClick={handleMarkAttendance} 
+        <button
+          onClick={handleMarkAttendance}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
           Mark Attendance
@@ -102,8 +92,8 @@ export default function Attendance() {
       {/* Attendance Records */}
       <div>
         <h2 className="text-xl mb-2">Attendance Records</h2>
-        <button 
-          onClick={fetchAttendanceData} 
+        <button
+          onClick={() => setDate(new Date().toISOString().split('T')[0])} // Reset date to today's date
           className="mb-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
         >
           Refresh
@@ -112,18 +102,18 @@ export default function Attendance() {
           <thead>
             <tr>
               <th className="px-6 py-3 bg-gray-50 text-left">Date</th>
-              <th className="px-6 py-3 bg-gray-50 text-left">Type</th>
               <th className="px-6 py-3 bg-gray-50 text-left">Student</th>
+              <th className="px-6 py-3 bg-gray-50 text-left">Email</th>
               <th className="px-6 py-3 bg-gray-50 text-left">Present</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {attendanceData.map((record, index) => (
               <tr key={index}>
-                <td className="px-6 py-4">{record.date}</td>
-                <td className="px-6 py-4">{record.type}</td>
-                <td className="px-6 py-4">{record.student.name}</td>
-                <td className="px-6 py-4">{record.student.present ? 'Yes' : 'No'}</td>
+                <td className="px-6 py-4">{record.date.slice(0, 10)}</td>
+                <td className="px-6 py-4">{record.first_name} {record.last_name}</td>
+                <td className="px-6 py-4">{record.email}</td>
+                <td className="px-6 py-4">{record.status}</td>
               </tr>
             ))}
           </tbody>

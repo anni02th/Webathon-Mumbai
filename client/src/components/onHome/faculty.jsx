@@ -76,8 +76,7 @@ const Faculty = () => {
                       <div className='flex flex-col text-center mt-2 gap-2'>
                         <h1 className='text-xl font-medium text-gray-800'>{faculty.name}</h1>
                         <p className='text-slate-700'>{faculty.position}</p>
-                        <p className='text-slate-600'>{faculty.education}</p>
-                      </div>
+                        <p className='text-slate-600'> {faculty.education.length > 55 ? `${faculty.education.substring(0, 55)}...` : faculty.education}</p>                      </div>
                     </div>
                     <p className='text-slate-600 font-medium text-center'>{faculty.department}</p>
                   </div>
@@ -86,7 +85,7 @@ const Faculty = () => {
           </div>
         )}
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 };

@@ -15,7 +15,6 @@ from flask_mail import Mail, Message
 import gridfs
 from datetime import datetime, timezone
 load_dotenv()
-import logging
 
 app = Flask(__name__)
 
@@ -33,12 +32,11 @@ ACCOUNT_ID = os.getenv("ACCOUNT_ID")
 AUTH_TOKEN = os.getenv("API_TOKEN")
 
 users_collection = mongo.db.logins
-students_collection = mongo.db.students
 departments_collection = mongo.db.departments
 faculty_collection = mongo.db.faculty
 forum_posts_collection = mongo.db.forum_posts
 announcements_collection = mongo.db.announcements
-attendance_collection = mongo.db.students
+attendance_collection = mongo.db.attendance_collection
 
 fs = gridfs.GridFS(mongo.db)
 db = mongo.db
@@ -180,6 +178,67 @@ def test_mongo():
         return jsonify({"msg": "MongoDB connection is successful"}), 200
     except Exception as e:
         return jsonify({"msg": "MongoDB connection failed", "error": str(e)}), 500
+    
+def mark_attendance():
+    # Fetch all students from the users_collection
+    students = users_collection.find({"role": "Student"})
+
+    # Initialize an empty list to store attendance data
+    attendance_data = []
+
+    # Iterate through each student and generate attendance data
+    for student in students:
+        attendance_data.append({
+            "student_id": str(student["_id"]),
+            "first_name": student["firstName"],
+            "last_name": student["lastName"],
+            "email": student["email"],
+            "date": datetime.now(timezone.utc),
+            "status": "present"
+        })
+
+    # Insert attendance data into the attendance_collection
+    attendance_collection.insert_many(attendance_data)
+
+    return {"message": "Attendance marked successfully"}
+
+@app.route('/api/attendance/mark', methods=['POST'])
+@jwt_required()  # Ensure the user is authenticated
+def mark_attendance_route():
+    current_user = get_jwt_identity()
+
+    # Check if the user has permission to mark attendance
+    if users_collection.find_one({"_id": ObjectId(current_user), "role": "admin"}) is None:
+        return jsonify({"message": "Permission denied"}), 403
+
+    return jsonify(mark_attendance())
+
+def get_attendance(date):
+    # Convert the provided date to a datetime object
+    date = datetime.strptime(date, '%Y-%m-%d')
+
+    # Fetch attendance data for the given date
+    attendance_data = attendance_collection.find({"date": {"$gte": date, "$lt": date + timedelta(days=1)}})
+
+    return list(attendance_data)
+
+@app.route('/api/attendance/data', methods=['GET'])
+@jwt_required()  # Ensure the user is authenticated
+def get_attendance_route():
+    current_user = get_jwt_identity()
+
+    # Check if the user has permission to fetch attendance data
+    if users_collection.find_one({"_id": ObjectId(current_user), "role": "admin"}) is None:
+        return jsonify({"message": "Permission denied"}), 403
+
+    date = request.args.get('date', None)
+
+    if date is None:
+        return jsonify({"message": "Date is required"}), 400
+
+    attendance_data = get_attendance(date)
+
+    return jsonify(attendance_data)
 
 @app.route('/api/admin/departments', methods=['GET', 'POST'])
 def handle_departments():
@@ -301,7 +360,6 @@ def get_directions():
     location = get_classroom_location(classroom)
     return jsonify({'location': location})
 
-logging.basicConfig(level=logging.DEBUG)
 
 # Function to extract text from a PDF file
 def extract_text_from_pdf(pdf_path):
@@ -317,7 +375,6 @@ def extract_text_from_pdf(pdf_path):
 def personalized_gpt():
     query = request.form.get('query')
     if not query:
-        return jsonify({"error": "Query is required"}), 400
         return jsonify({"error": "Query is required"}), 400
 
     pdf_file = request.files.get('file')
@@ -337,7 +394,6 @@ def personalized_gpt():
     if context:
         prompt = f"Your name is PersonalizedGPT and you are a helpful and knowledgeable assistant for college students. You assist with their studies and provide concise explanations based on the provided PDF notes.\n\n{context}\n\nBased on the above notes, answer the following query:\n{query}"
     else:
-        prompt = f"Your name is PersonalizedGPT and you are a helpful and knowledgeable assistant for college students. You assist with their studies and provide concise explanations and answers.\n\nAnswer the following query:\n{query}"
         prompt = f"Your name is PersonalizedGPT and you are a helpful and knowledgeable assistant for college students. You assist with their studies and provide concise explanations and answers.\n\nAnswer the following query:\n{query}"
 
     # Send the prompt to the GPT model
@@ -484,77 +540,52 @@ def like_forum_post(post_id):
         return jsonify({"error": str(e)}), 400
 
 @app.route('/api/announcements', methods=['POST'])
+@jwt_required()
 def post_announcement():
-    data = request.get_json()
-    title = data.get('title')
-    message = data.get('message')
-
-    if not title or not message:
-        return jsonify({'error': 'Title and message are required'}), 400
-
-    # Save announcement to a database or file
-    # For demonstration, just return a success message
-    return jsonify({'msg': 'Announcement posted successfully'}), 201
-
-# app.py
-@app.route('/api/announcements', methods=['GET'])
-def get_announcements():
-    # Fetch announcements from your database or file
-    announcements = [
-        {'title': 'Exam Schedule', 'message': 'The exam schedule has been updated.'},
-        {'title': 'Holiday Notice', 'message': 'The campus will be closed on August 15.'},
-    ]  # Replace with actual data retrieval logic
-    return jsonify(announcements)
-
-
-@app.route('/api/students', methods=['GET'])
-@jwt_required()
-def get_students():
-    try:
-        students = list(students_collection.find({}))
-        for student in students:
-            student['_id'] = str(student['_id'])
-        return jsonify(students), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-# Fetch attendance records
-@app.route('/api/attendance', methods=['GET'])
-@jwt_required()
-def get_attendance():
-    try:
-        attendance = list(attendance_collection.find({}))
-        for record in attendance:
-            record['_id'] = str(record['_id'])
-            record['student']['_id'] = str(record['student']['_id'])
-        return jsonify(attendance), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-# Mark attendance
-@app.route('/api/attendance', methods=['POST'])
-@jwt_required()
-def mark_attendance():
     try:
         data = request.get_json()
-        date = data.get('date')
-        type = data.get('type')
-        students = data.get('students')
+        title = data.get('title')
+        message = data.get('message')
 
-        for student in students:
-            attendance_record = {
-                "date": date,
-                "type": type,
-                "student": {
-                    "_id": ObjectId(student['id']),
-                    "present": student['present']
-                }
-            }
-            attendance_collection.insert_one(attendance_record)
+        # Server-side validation
+        if not title or not message:
+            return jsonify({'error': 'Title and message are required'}), 422
 
-        return jsonify({"message": "Attendance marked successfully."}), 200
+        announcement = {
+            'title': title,
+            'message': message,
+            # Optional: 'created_by': get_jwt_identity(),
+            # Optional: 'created_at': datetime.now(timezone.utc)
+        }
+
+        result = announcements_collection.insert_one(announcement)
+
+        return jsonify({'msg': 'Announcement posted successfully', 'id': str(result.inserted_id)}), 201
+
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        print(f"Error in POST /api/announcements: {str(e)}")
+        return jsonify({'error': 'An internal server error occurred'}), 500
+
+@app.route('/api/announcements', methods=['GET'])
+def get_announcements():
+    try:
+        announcements = announcements_collection.find()
+        announcements_list = []
+        for announcement in announcements:
+            announcements_list.append({
+                'id': str(announcement['_id']),
+                'title': announcement['title'],
+                'message': announcement['message'],
+                # 'created_by': announcement['created_by'],
+                # 'created_at': announcement['created_at'].strftime('%Y-%m-%d %H:%M:%S')
+            })
+
+        return jsonify(announcements_list), 200
+
+    except Exception as e:
+        print(f"Error in GET /api/announcements: {str(e)}")  # Log the error
+        return jsonify({'error': 'An internal server error occurred'}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)

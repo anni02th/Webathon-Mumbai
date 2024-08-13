@@ -35,7 +35,7 @@ export default function StudyBuddy() {
   };
 
   return (
-    <div className='h-[100vh] w-fit'>
+    <div className='h-auto w-fit'>
       <div className='mx-4 flex flex-wrap gap-4 justify-center'>
         {notes.map(note => (
           <div key={note.file_id} className={`w-72 h-fit flex flex-col border-2 rounded-lg border-b-${note.branch === 'Data Structures' ? 'teal' : note.branch === 'Operating Systems' ? 'rose' : 'Dbblue'}-600 border-b-4`}>

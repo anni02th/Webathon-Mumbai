@@ -11,13 +11,32 @@ const Announcement = () => {
     event.preventDefault();
     setLoading(true);
     setStatus('');
+
+    // Client-side validation
+    if (!title.trim() || !message.trim()) {
+      setStatus('Title and message are required.');
+      setLoading(false);
+      return;
+    }
+
     try {
-      const response = await axios.post('/api/announcements', { title, message });
+      const token = localStorage.getItem('token');
+      const response = await axios.post(
+        '/api/announcements',
+        { title, message },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
       setStatus(response.data.msg || 'Announcement posted successfully!');
       setTitle('');
       setMessage('');
     } catch (error) {
       setStatus(`Error: ${error.response?.data.error || 'Error posting announcement.'}`);
+      console.error('Error response:', error.response);
     } finally {
       setLoading(false);
     }
