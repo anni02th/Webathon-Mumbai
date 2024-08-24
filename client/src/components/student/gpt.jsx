@@ -70,6 +70,9 @@ export default function GPT() {
           </div>
         )}
       </div>
+      <div className='flex justify-start items-center absolute'>
+        <img src="" alt="" className='w-60'/>
+      </div>
       <textarea
         value={input}
         onChange={(e) => setInput(e.target.value)}

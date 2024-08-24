@@ -18,6 +18,7 @@ export default function Faculty() {
     const [facultyList, setFacultyList] = useState([]);
     const [editFaculty, setEditFaculty] = useState(null);
     const [formData, setFormData] = useState({ id: '', imgsrc: '', name: '', position: '', education: '', department: '' });
+    const [formVisible, setFormVisible] = useState(false);
 
     useEffect(() => {
         fetchFaculty();
@@ -35,11 +36,13 @@ export default function Faculty() {
     const handleEditClick = (faculty) => {
         setEditFaculty(faculty);
         setFormData(faculty);
+        setFormVisible(true);
     };
 
     const handleAddClick = () => {
         setEditFaculty(null);
         setFormData({ id: '', imgsrc: '', name: '', position: '', education: '', department: '' });
+        setFormVisible(true);
     };
 
     const handleDeleteClick = async (id) => {
@@ -66,6 +69,7 @@ export default function Faculty() {
                 await axios.post('/api/admin/faculty', formData);
             }
             fetchFaculty();
+            setFormVisible(false); // Hide form after submission
             setEditFaculty(null);
             setFormData({ id: '', imgsrc: '', name: '', position: '', education: '', department: '' });
         } catch (error) {
@@ -96,70 +100,73 @@ export default function Faculty() {
                     <i className='text-xl text-white'>Page of</i>
                     <h1 className='text-3xl font-semibold text-white'>Faculty Management</h1>
                 </div>
-                <div className='w-full flex flex-col gap-4 mt-8'>
-                    {facultyList.map(faculty => card(faculty))}
-                </div>
             </div>
 
             <div className='flex justify-center mb-8'>
                 <button onClick={handleAddClick} className='bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600'>Add New Faculty</button>
             </div>
 
-            <form onSubmit={handleFormSubmit} className='flex flex-col gap-4 max-w-md mx-auto mb-8'>
-                <input
-                    type='text'
-                    name='imgsrc'
-                    value={formData.imgsrc}
-                    onChange={handleInputChange}
-                    placeholder='Image Source'
-                    className='p-2 border rounded-md'
-                    required
-                />
-                <input
-                    type='text'
-                    name='name'
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    placeholder='Name'
-                    className='p-2 border rounded-md'
-                    required
-                />
-                <input
-                    type='text'
-                    name='position'
-                    value={formData.position}
-                    onChange={handleInputChange}
-                    placeholder='Position'
-                    className='p-2 border rounded-md'
-                    required
-                />
-                <input
-                    type='text'
-                    name='education'
-                    value={formData.education}
-                    onChange={handleInputChange}
-                    placeholder='Education'
-                    className='p-2 border rounded-md'
-                    required
-                />
-                <select
-                    name='department'
-                    value={formData.department}
-                    onChange={handleInputChange}
-                    className='p-2 border rounded-md'
-                    required
-                >
-                    <option value='' disabled>Select Department</option>
-                    {departments.map((dept) => (
-                        <option key={dept.value} value={dept.value}>
-                            {dept.label}
-                        </option>
-                    ))}
-                </select>
-                <button type='submit' className='bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600'>
-                    {editFaculty ? 'Update' : 'Add'}
-                </button>
-            </form>
+            {formVisible && (
+                <form onSubmit={handleFormSubmit} className='flex flex-col gap-4 max-w-md mx-auto mb-8'>
+                    <input
+                        type='text'
+                        name='imgsrc'
+                        value={formData.imgsrc}
+                        onChange={handleInputChange}
+                        placeholder='Image Source'
+                        className='p-2 border rounded-md'
+                        required
+                    />
+                    <input
+                        type='text'
+                        name='name'
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        placeholder='Name'
+                        className='p-2 border rounded-md'
+                        required
+                    />
+                    <input
+                        type='text'
+                        name='position'
+                        value={formData.position}
+                        onChange={handleInputChange}
+                        placeholder='Position'
+                        className='p-2 border rounded-md'
+                        required
+                    />
+                    <input
+                        type='text'
+                        name='education'
+                        value={formData.education}
+                        onChange={handleInputChange}
+                        placeholder='Education'
+                        className='p-2 border rounded-md'
+                        required
+                    />
+                    <select
+                        name='department'
+                        value={formData.department}
+                        onChange={handleInputChange}
+                        className='p-2 border rounded-md'
+                        required
+                    >
+                        <option value='' disabled>Select Department</option>
+                        {departments.map((dept) => (
+                            <option key={dept.value} value={dept.value}>
+                                {dept.label}
+                            </option>
+                        ))}
+                    </select>
+                    <button type='submit' className='bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600'>
+                        {editFaculty ? 'Update' : 'Add'}
+                    </button>
+                </form>
+            )}
+
+            <div className='w-full flex flex-col gap-4 mt-8'>
+                {facultyList.map(faculty => card(faculty))}
+            </div>
         </div>
     );
 }
