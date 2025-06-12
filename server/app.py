@@ -22,7 +22,10 @@ app.config["MONGO_URI"] = os.getenv("MONGO_URI")
 mongo = PyMongo(app)
 jwt = JWTManager(app)
 
-CORS(app, supports_credentials=True)
+# Update CORS configuration to allow specific origins
+CORS(app, 
+     resources={r"/*": {"origins": ["https://webathon-anni.netlify.app"]}},
+     supports_credentials=True)
 
 app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
 
