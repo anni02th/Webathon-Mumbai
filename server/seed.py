@@ -4,7 +4,7 @@ from datetime import datetime
 import gridfs
 
 app = Flask(__name__)
-app.config["MONGO_URI"] = "mongodb+srv://aniketmore2000th:wh8hLEWsvzwPRTfD@cluster0.ecbrfai.mongodb.net/database"
+
 mongo = PyMongo(app)
 
 def seed_database():

@@ -3,3 +3,4 @@
 .env
 __pycache__
 /server/venv
+/server/seed.py
