@@ -1,0 +1,14 @@
+Flask==3.0.2
+Flask-PyMongo==2.3.0
+Flask-JWT-Extended==4.6.0
+Flask-CORS==4.0.0
+Flask-Mail==0.9.1
+PyMongo==4.6.2
+Werkzeug==3.0.1
+python-dotenv==1.0.1
+requests==2.31.0
+PyMuPDF==1.23.26  # This is the fitz package
+gridfs==0.1.0
+python-jose==3.3.0
+bcrypt==4.1.2
+email-validator==2.1.0.post1 
