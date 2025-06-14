@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
   const fetchUserData = async (token) => {
     try {
       // Assuming you have a backend endpoint to verify token and get user data
-      const response = await axios.get('http://localhost:5000/user', {
+      const response = await axios.get('https://ombirla.pythonanywhere.com/user', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUser(response.data); // Assuming response.data contains user information
@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password, role) => {
     try {
-      const response = await axios.post('http://localhost:5000/login', {
+      const response = await axios.post('https://ombirla.pythonanywhere.com/login', {
         email,
         password,
         role,

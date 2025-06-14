@@ -30,7 +30,7 @@ const Signup = () => {
         role,
       };
 
-      const response = await axios.post('http://localhost:5000/signup', userData);
+      const response = await axios.post('https://ombirla.pythonanywhere.com/signup', userData);
 
       if (response.status === 201) {
         alert('Sign-up successful! Please log in.');

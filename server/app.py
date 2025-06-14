@@ -14,6 +14,7 @@ import tempfile
 from flask_mail import Mail, Message
 import gridfs
 from datetime import datetime, timezone
+import base64
 load_dotenv()
 
 app = Flask(__name__)
@@ -22,9 +23,9 @@ app.config["MONGO_URI"] = os.getenv("MONGO_URI")
 mongo = PyMongo(app)
 jwt = JWTManager(app)
 
-# Update CORS configuration to allow specific origins
+# Update CORS configuration to allow Vercel deployment URL
 CORS(app, 
-     resources={r"/*": {"origins": ["https://webathon-anni.netlify.app"]}},
+     resources={r"/*": {"origins": ["http://localhost:5173", "https://*.vercel.app", "https://*.now.sh"]}},
      supports_credentials=True)
 
 app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
@@ -310,15 +311,16 @@ def handle_faculty():
 def upload_academic_calendar():
     if 'file' not in request.files:
         return jsonify({'error': 'No file part'}), 400
+    
     file = request.files['file']
     if file.filename == '':
         return jsonify({'error': 'No selected file'}), 400
-    if file and file.filename.endswith('.pdf'):
+    
+    if file:
         filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        return jsonify({'msg': 'File uploaded successfully', 'filename': filename}), 201
-    else:
-        return jsonify({'error': 'Invalid file type, only PDF allowed'}), 400
+        # Store file in GridFS
+        file_id = fs.put(file.read(), filename=filename)
+        return jsonify({'message': 'File uploaded successfully', 'file_id': str(file_id)}), 200
 
 # Get Academic Calendar
 @app.route('/api/admin/acad_calendar', methods=['GET'])
@@ -333,25 +335,27 @@ def get_academic_calendar():
         return jsonify({'error': str(e)}), 500
 
 # Download Academic Calendar
-@app.route('/api/admin/acad_calendar/<filename>', methods=['GET'])
-def download_academic_calendar(filename):
+@app.route('/api/admin/acad_calendar/<file_id>', methods=['GET'])
+def download_academic_calendar(file_id):
     try:
-        return send_from_directory(app.config['UPLOAD_FOLDER'], filename, as_attachment=False)
-    except FileNotFoundError:
-        return jsonify({'error': 'File not found'}), 404
+        file_data = fs.get(ObjectId(file_id))
+        return send_file(
+            io.BytesIO(file_data.read()),
+            mimetype='application/pdf',
+            as_attachment=True,
+            download_name=file_data.filename
+        )
+    except Exception as e:
+        return jsonify({'error': str(e)}), 404
 
 # Delete Academic Calendar
-@app.route('/api/admin/acad_calendar/<filename>', methods=['DELETE'])
-def delete_academic_calendar(filename):
+@app.route('/api/admin/acad_calendar/<file_id>', methods=['DELETE'])
+def delete_academic_calendar(file_id):
     try:
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        if os.path.exists(file_path):
-            os.remove(file_path)
-            return jsonify({'msg': 'File deleted successfully'}), 200
-        else:
-            return jsonify({'error': 'File not found'}), 404
+        fs.delete(ObjectId(file_id))
+        return jsonify({'message': 'File deleted successfully'}), 200
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': str(e)}), 404
 
 # for get directions feature
 @app.route('/api/getdirections', methods=['GET'])

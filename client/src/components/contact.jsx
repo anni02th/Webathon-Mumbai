@@ -30,7 +30,7 @@ const Contact = () => {
     setIsSubmitting(true);
     setError('');
     try {
-      await axios.post('http://localhost:5000/send-mail', formData);
+      await axios.post('https://ombirla.pythonanywhere.com/send-mail', formData);
       alert('Mail sent successfully!');
       setFormData({
         firstName: '',

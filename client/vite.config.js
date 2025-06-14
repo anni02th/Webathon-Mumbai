@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://anni02th.pythonanywhere.com', // Flask backend URL
+        target: 'https://ombirla.pythonanywhere.com', // Flask backend URL
         changeOrigin: true,
         secure: false,
       },
